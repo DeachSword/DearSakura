@@ -1,0 +1,14 @@
+about:
+  p1: 마지막 편지는 ...
+  p2: 죄송합니다. 출구가 너무 늦어서 언젠가는 희망입니다
+  p3: 마침내 ...
+  p4: 행복하세요 ~!
+  title: 사랑하는 사쿠라
+debug: 테스트!
+home:
+  find:
+    inputTip: 이름을 입력하시오
+    result: 결과
+tran:
+  local: 한국어
+

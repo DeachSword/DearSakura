@@ -1,0 +1,14 @@
+about:
+  p1: The last letter to you...
+  p2: 'I''m sorry...too late to face your exit, so...I hope one day'
+  p3: At last...
+  p4: Be happy~!
+  title: Dear Sakura
+debug: test!
+home:
+  find:
+    inputTip: Enter name
+    result: Result
+tran:
+  local: English
+

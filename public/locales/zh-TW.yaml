@@ -1,0 +1,14 @@
+about:
+  p1: 給妳...的最後一封信
+  p2: '很抱歉...來不及當面對妳說出口, 所以...終盼能有一天'
+  p3: 最後...
+  p4: 要幸福喔~!
+  title: 親愛的櫻
+debug: 測試!
+home:
+  find:
+    inputTip: 輸入名子
+    result: 結果
+tran:
+  local: 繁體中文
+
