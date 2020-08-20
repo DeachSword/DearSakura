@@ -24,6 +24,7 @@ export function createRouter(){
       },
       {
         path: '/message/:to',
+        name: 'Message',
         props: true,
         component: Messages
       },

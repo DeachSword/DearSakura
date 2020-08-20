@@ -4,11 +4,31 @@ about:
   p3: At last...
   p4: Be happy~!
   title: Dear Sakura
+create:
+  inputTip:
+    _from: I... (own nickname)
+    message: my thought...
+    to: Able to communicate to... (her nickname)
+  p1: Ah... maybe one day...
+  submit: Send
+  title: Create Message
+  loginTip: You need to log in to post a message
 debug: test!
 home:
   find:
     inputTip: Enter name
+    p1: 'Give the one she loved... If you are still there, please enter your name!'
     result: Result
+  footer:
+    source: Source Code
+  login:
+    tipLogin: Click to login
+  text:
+    p1: 吶、還記得那時候嗎？
+    p2: 我有好多好多……想對妳說的話
+    p3: 啊～啊、希望有天妳能夠收到這些訊息—
+    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
 tran:
   local: English
-
+message:
+  rating: Rating

@@ -47,7 +47,7 @@
               </span>
               <span class="message-footer-header__value-name">0</span>
             </span>
-            <b-button variant="primary" class="message-footer-header__value" v-b-modal="'modal-msg-rating_' + d.id">評分
+            <b-button variant="primary" class="message-footer-header__value" v-b-modal="'modal-msg-rating_' + d.id" :disabled="isLogin ? false : true">{{$t('message.rating')}}
               <span class="message-footer-header__value-icon">
                 <b-icon icon="star-fill"></b-icon>
               </span>

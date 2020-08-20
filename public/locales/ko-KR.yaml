@@ -4,11 +4,31 @@ about:
   p3: 마침내 ...
   p4: 행복하세요 ~!
   title: 사랑하는 사쿠라
+create:
+  inputTip:
+    _from: 나 ... (자체 별명)
+    message: 내 생각...
+    to: 의사 소통 가능 ... (그녀의 닉네임)
+  p1: '아, 언젠가는 ...'
+  submit: 보내다
+  title: 메시지 작성
+  loginTip: 메시지를 게시하려면 로그인해야합니다.
 debug: 테스트!
 home:
   find:
     inputTip: 이름을 입력하시오
+    p1: '그녀가 사랑하는 사람에게 ... 이름이 아직 있다면, 이름을 입력하십시오!'
     result: 결과
+  footer:
+    source: 소스 코드
+  login:
+    tipLogin: 로그인하려면 클릭하세요
+  text:
+    p1: 吶、還記得那時候嗎？
+    p2: 我有好多好多……想對妳說的話
+    p3: 啊～啊、希望有天妳能夠收到這些訊息—
+    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
 tran:
   local: 한국어
-
+message:
+  rating: 평점

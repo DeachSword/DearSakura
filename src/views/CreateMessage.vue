@@ -10,13 +10,13 @@
     <template v-slot:overlay>
         <div class="text-center">
           <b-icon icon="person-circle" font-scale="3" animation="cylon"></b-icon>
-          <p id="cancel-label">您需要 登入 才能發布訊息</p>
+          <p id="cancel-label">{{$t('create.loginTip')}}</p>
           <b-button
             href="https://www.deachsword.com/serverbot/sso"
             variant="outline-info"
             size="sm"
             v-b-tooltip.hover 
-            :title="'點擊登入'"
+            :title="$t('home.login.tipLogin')"
           >
             LOGIN
           </b-button>

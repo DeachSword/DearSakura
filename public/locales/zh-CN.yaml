@@ -4,11 +4,31 @@ about:
   p3: 最后...
   p4: 要幸福喔~!
   title: 亲爱的樱
+create:
+  inputTip:
+    _from: 我. . .(自身昵称)
+    message: 我的心意...
+    to: 能够传达给. . .(她的昵称)
+  p1: 啊啊啊、也许有一天...
+  submit: 发送
+  title: 创建讯息
+  loginTip: 您需要 登入 才能發布訊息
 debug: 测试!
 home:
   find:
     inputTip: 输入名子
+    p1: '给予曾经爱过的那个她... 如果妳还在, 请输入你的名子吧!'
     result: 结果
+  footer:
+    source: 原始碼
+  login:
+    tipLogin: 點擊登入
+  text:
+    p1: 吶、還記得那時候嗎？
+    p2: 我有好多好多……想對妳說的話
+    p3: 啊～啊、希望有天妳能夠收到這些訊息—
+    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
 tran:
   local: 简体中文
-
+message:
+  rating: 评价

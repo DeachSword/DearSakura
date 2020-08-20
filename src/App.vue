@@ -22,7 +22,7 @@
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
-        <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" data-click-menu-target="nav2-login-box" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : '點擊登入'" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
+        <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" data-click-menu-target="nav2-login-box" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : $t('home.login.tipLogin')" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
       </b-collapse>
     </b-navbar>
     
@@ -33,7 +33,7 @@
     </section>
     <footer class="footer">
       <div class="footer__row">
-        <a class="footer__link" href="https://github.com/DeachSword/DearSakura">原始碼</a>
+        <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
         <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
       </div>
       <div class="footer__row">
@@ -123,8 +123,6 @@ export default {
         .then((response) => {
           this.setProfile(response.data.result)
           this.setLoginState(true)
-          console.log(this.profile)
-          console.log(this.isLogin)
         })
         .catch(function (error) {
         });
