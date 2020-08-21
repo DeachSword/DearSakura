@@ -14,15 +14,15 @@
         <b-navbar-nav class="ml-auto">
 
           <b-nav-item-dropdown :text="currentLang" right>
-            <b-dropdown-item  v-for="[lang, name] in availableLang" :key="name" @click="updateLang(lang, $event)">
+            <b-dropdown-item  v-for="[lang, name] in availableLang" :key="lang" @click="updateLang(lang, $event)">
               {{name}}
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="/about" id="about">{{'About'}}</b-dropdown-item>
+            <b-dropdown-item to="/about" id="about">{{'About'}}</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
-        <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" data-click-menu-target="nav2-login-box" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : $t('home.login.tipLogin')" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
+        <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : $t('home.login.tipLogin')" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
       </b-collapse>
     </b-navbar>
     

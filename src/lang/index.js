@@ -20,6 +20,8 @@ return messages
 const i18n = new VueI18n({
     locale: 'zh-TW',
     fallbackLocale: 'zh-TW',
+    formatFallbackMessages: true,
+    silentFallbackWarn: true,
     messages: loadLocaleMessages()
 })
 
