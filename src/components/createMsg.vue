@@ -29,6 +29,86 @@
         no-resize
       ></b-form-textarea>
     </transition>
+    <transition mode="in-out" v-if="message">
+      <b-form-tags input-id="tags" v-model="tags" class="mb-2" 
+      placeholder="新增Tags" separator=" ">
+        <template v-slot="{ tags,
+       inputAttrs, inputHandlers, disabled, addTag, removeTag }">
+          <b-input-group aria-controls="my-custom-tags-list">
+          <input
+            v-bind="inputAttrs"
+            v-on="inputHandlers"
+            placeholder="New tag - Press enter to add"
+            class="form-control">
+          <b-input-group-append>
+            <b-button @click="addTag()" variant="primary">Add</b-button>
+          </b-input-group-append>
+        </b-input-group>
+        <ul
+          id="my-custom-tags-list"
+          class="list-unstyled d-inline-flex flex-wrap mb-0"
+          aria-live="polite"
+          aria-atomic="false"
+          aria-relevant="additions removals"
+        >
+          <!-- Always use the tag value as the :key, not the index! -->
+          <!-- Otherwise screen readers will not read the tag
+               additions and removals correctly -->
+          <b-card
+            v-for="tag in tags"
+            :key="tag"
+            :id="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
+            tag="li"
+            class="mt-1 mr-1"
+            body-class="py-1 pr-2 text-nowrap"
+          >
+            <strong>{{ tag }}</strong>
+            <b-button
+              @click="removeTag(tag)"
+              variant="link"
+              size="sm"
+              :aria-controls="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
+            >remove</b-button>
+          </b-card>
+        </ul>
+        <b-dropdown size="sm" variant="outline-secondary" block menu-class="w-100">
+            <template v-slot:button-content>
+              <b-icon icon="tag-fill"></b-icon>建議標籤
+            </template>
+            <b-dropdown-form @submit.stop.prevent="() => {}">
+              <b-form-group
+                label-for="tag-search-input"
+                label="Search tags"
+                label-cols-md="auto"
+                class="mb-0"
+                label-size="sm"
+                :description="searchDesc"
+              >
+                <b-form-input
+                  v-model="tag_search"
+                  id="tag-search-input"
+                  type="search"
+                  size="sm"
+                  autocomplete="off"
+                 ></b-form-input>
+              </b-form-group>
+            </b-dropdown-form>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item-button
+              v-for="option in availableOptions"
+              :key="option"
+              @click="onOptionClick({ option, addTag })"
+            >
+              {{ option }}
+            </b-dropdown-item-button>
+            <b-dropdown-text v-if="availableOptions.length === 0">
+              There are no tags available to select
+            </b-dropdown-text>
+          </b-dropdown>            
+          </template>
+
+      </b-form-tags>
+    </transition>
     <br />
     <b-button type="submit" variant="primary"  v-if="canSub" @click="createMessage">{{$t('create.title')}}</b-button>
     <p class="form-text text-danger" v-if="errorMsg != null">{{'ERROR!'}}: {{errorMsg}}</p>
@@ -47,6 +127,10 @@ export default {
       _from: '',
       to: '',
       message: '',
+      tags: null,
+      tag_options: ['sinoalice'],
+      tag_search: '',
+      tags: [],
       errorMsg: null,
       canSub: false
     }
@@ -54,6 +138,27 @@ export default {
   computed: {
     CM() {
       return this.message
+    },
+    criteria() {
+      // Compute the search criteria
+      return this.tag_search.trim().toLowerCase()
+    },
+    availableOptions() {
+      const criteria = this.criteria
+      // Filter out already selected options
+      const options = this.tag_options.filter(opt => this.tags.indexOf(opt) === -1)
+      if (criteria) {
+        // Show only options that match criteria
+        return options.filter(opt => opt.toLowerCase().indexOf(criteria) > -1);
+      }
+      // Show all options available
+      return options
+    },
+    searchDesc() {
+      if (this.criteria && this.availableOptions.length === 0) {
+        return 'There are no tags matching your search criteria'
+      }
+      return ''
     }
   },
   watch: {
@@ -87,7 +192,8 @@ export default {
           'data': {
               "_from" : this.$data._from.trim(),
               "to" : this.to.trim(),
-              "msg" : this.message.trim()
+              "msg" : this.message.trim(),
+              "tag" : this.tags
           },
           'token': this.token
         }))
@@ -95,12 +201,16 @@ export default {
           if(response.data.message !== "success"){
             this.errorMsg = response.data.message
           }else{
-            this.$router.push(`/?to=${this.to}`)
+            this.$router.push(`/message/${this.to}`)
           }
         })
         .catch(function (error) {
-          console.log(error)
+          this.errorMsg = '內部錯誤, 請聯絡管理員'
         });
+    },
+    onOptionClick({ option, addTag }) {
+      addTag(option)
+      this.tag_search = ''
     }
   },
   beforeDestroy() {
