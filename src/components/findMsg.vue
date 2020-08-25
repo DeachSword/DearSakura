@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <b-form-input
       v-model="search"
       type="text"
@@ -14,63 +13,7 @@
     <progress class="progress is-info" max="100" v-if="loading"></progress>
     <hr v-if="messages.length">
     <b-card-group columns>
-      <b-card  v-for="(d, i) in messages" :key="i" bg-variant="dark" border-variant="white" text-variant="white" style="min-width: 100%; width: auto;">
-        <template v-slot:header>
-          <code>#{{i}}</code>
-          
-          <b-button
-            v-if="isLogin"
-            variant="outline-danger"
-            pill
-            right
-            v-b-tooltip.hover.bottom
-            title="收藏(beta)"
-            size="sm"
-            class="favourites-btn">
-            <b-icon icon="heart"></b-icon>
-            </b-button>
-        </template>
-        <b-card-text>
-          <pre style="color: unset" text-variant="white" 
-            v-b-tooltip.hover.bottom title="Message">{{d.message}}</pre>
-        </b-card-text>
-
-        <footer class="blockquote-footer text-right text-white"><cite 
-            v-b-tooltip.hover.bottom title="作成者">{{d._from}}</cite> sub on {{d.createdTime}}
-        </footer>
-        
-        <template v-slot:footer>
-          <div>
-            <span class="message-footer-header__value" title="收藏數" v-b-tooltip.hover.top>
-              <span class="message-footer-header__value-icon">
-                <b-icon icon="heart-fill"></b-icon>
-              </span>
-              <span class="message-footer-header__value-name">0</span>
-            </span>
-            <b-button variant="primary" class="message-footer-header__value" v-b-modal="'modal-msg-rating_' + d.id" :disabled="isLogin ? false : true">{{$t('message.rating')}}
-              <span class="message-footer-header__value-icon">
-                <b-icon icon="star-fill"></b-icon>
-              </span>
-              <span class="message-footer-header__value-name">{{d.rating}}</span>
-            </b-button>
-            <b-modal centered :id="'modal-msg-rating_' + d.id" title="Submit Rating" @show="ratingData.rating=-1" @ok="rateMessage(d.id)" :ok-disabled="ratingData.rating != -1 ? false : true">
-              <b-rating
-                v-if="isLogin || d.isRated"
-                icon-empty="heart"
-                icon-half="heart-half"
-                icon-full="heart-fill"
-                variant="danger"
-                stars="10"
-                :value="d.isRated ? d.selfRating : null"
-                show-value
-                :readonly="(d.isRated || !d.canRating)? true : false"
-                @change="ratingData.id=d.id, ratingData.rating=$event"
-              ></b-rating>
-            </b-modal>
-          </div>
-         
-        </template>
-      </b-card>
+      <message v-for="(d, i) in messages" :key="i" :message="d" :index="i"></message>
     </b-card-group>
     <b-jumbotron v-if="messages.length == 0 && searched && !loading && search"  bg-variant="dark" border-variant="white" text-variant="white">
     <template v-slot:header>噓...你只需要發送!</template>
@@ -102,6 +45,7 @@ import { mapState, mapMutations } from 'vuex'
 import axios from 'axios'
 import Qs from 'qs'
 
+import message from '@/components/Message.vue'
 
 export default {
   props: ['to'],
@@ -113,14 +57,10 @@ export default {
       timer: '',
       loading: false,
       errorMsg: null,
-      infoMsg: null,
-      canRating: false,
-      ratingData: {
-        id: -1,
-        rating: -1
-      }
+      infoMsg: null
     }
   },
+  components: { message },
   created() {
     if(this.$route.query.to !== undefined){
       this.$router.push({ path: `/message/${this.$route.query.to}` })
@@ -210,33 +150,6 @@ export default {
         try{this.$ga.event('DearSakura', { method: '搜尋訊息' })}catch (error) {
           //
         }
-    },
-    rateMessage(msgId){
-      if(msgId == this.ratingData.id){
-        axios.post('https://dearsakura.deachsword.com/api/rating', Qs.stringify({
-          "msgId" : msgId,
-          "rating" : this.ratingData.rating
-        }))
-        .then((response) => {
-          if(response.data.message !== "success"){
-            this.errorMsg = `評分失敗: ${response.data.message}`
-          }else{
-            this.errorMsg = null
-            this.messages.forEach(element => {
-              if(element.id == msgId){
-                element.rating = response.data.result
-                }
-            })
-            this.infoMsg = `評分成功!`
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-        try{this.$ga.event('DearSakura', { method: '訊息評分' })}catch (error) {
-          //
-        }
-      }
     },
     pushRouter(){
       this.$router.push({ path: `/message/${this.search}` })
