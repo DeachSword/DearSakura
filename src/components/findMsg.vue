@@ -12,8 +12,8 @@
     <b-form-text v-if="searched">{{'Result'}}: {{messages.length}}</b-form-text>
     <progress class="progress is-info" max="100" v-if="loading"></progress>
     <hr v-if="messages.length">
-    <b-card-group columns>
-      <message v-for="(d, i) in messages" :key="i" :message="d" :index="i"></message>
+    <b-card-group columns style="column-count: auto;">
+      <message v-for="(d, i) in messages" :key="i" :message="d"></message>
     </b-card-group>
     <b-jumbotron v-if="messages.length == 0 && searched && !loading && search"  bg-variant="dark" border-variant="white" text-variant="white">
     <template v-slot:header>噓...你只需要發送!</template>

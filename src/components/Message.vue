@@ -1,7 +1,7 @@
 <template>
-    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="min-width: 100%;">
+    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="width: auto;margin: 0.625rem;">
         <template v-slot:header>
-            <code>#{{index}}</code>
+            <code>To {{message.to}}</code>
             
             <b-button
             v-if="isLogin"
@@ -65,7 +65,7 @@ import { mapState, mapMutations } from 'vuex'
 import Qs from 'qs'
 
 export default {
-  props: ['index', 'message'],
+  props: ['message'],
   data() {
     return {
         infoMsg: null,

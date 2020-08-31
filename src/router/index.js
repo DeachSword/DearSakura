@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import CreateMessage from '../views/CreateMessage.vue'
 import Messages from '../views/Messages.vue'
+import MessagesApi from '../views/MessagesApi.vue'
+import Debug from '../views/DebugPage.vue'
 
 Vue.use(VueRouter)
 
@@ -37,6 +39,16 @@ export function createRouter(){
         path: '/create',
         name: 'create',
         component: CreateMessage
+      },
+      {
+        path: '/debug',
+        component: Debug
+      },
+      {
+        path: '/api2/msg/:msgId',
+        name: 'MessageApi',
+        props: true,
+        component: MessagesApi
       }
     ]      
   });

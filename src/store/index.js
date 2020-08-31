@@ -32,7 +32,9 @@ export const createStore = ({ lang, changeTitle , document}) => {
       cTitle: null,
       description: null,
       profile: null,
-      isLogin: false
+      isLogin: false,
+      isApi: false,
+      isJsonReander: false
     },
     getters: {},
     mutations: {
@@ -58,7 +60,13 @@ export const createStore = ({ lang, changeTitle , document}) => {
       },
       getTitle() {
         return getTitle()
-      }
+      },
+      setApiState(state, data) {
+        state.isApi = data
+      },
+      setJsonReander(state, data) {
+        state.isJsonReander = data
+      },
     },
     actions: {}
   })

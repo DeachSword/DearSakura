@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="!isApi">
     <client-only>
       <b-navbar toggleable="lg" type="dark" variant="dark">
         <b-navbar-brand to="/">DearSakura</b-navbar-brand>
@@ -26,22 +26,24 @@
           <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : $t('home.login.tipLogin')" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
         </b-collapse>
       </b-navbar>
+      <section class="section" @click="closeMenu">
+        <div class="container">
+          <router-view></router-view>
+        </div>
+      </section>
+      <footer class="footer">
+        <div class="footer__row">
+          <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
+          <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
+        </div>
+        <div class="footer__row">
+            DearSakura by <a class="footer__link" href="https://www.deachsword.com">DeachSword</a> 2020-{{ new Date().getFullYear() }}
+        </div>
+      </footer>
     </client-only>
-    
-    <section class="section" @click="closeMenu">
-      <div class="container">
-        <router-view></router-view>
-      </div>
-    </section>
-    <footer class="footer">
-      <div class="footer__row">
-        <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
-        <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
-      </div>
-      <div class="footer__row">
-          DearSakura by <a class="footer__link" href="https://www.deachsword.com">DeachSword</a> 2020-{{ new Date().getFullYear() }}
-      </div>
-    </footer>
+  </div>
+  <div v-else>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -69,7 +71,7 @@ export default {
     this.url = window.location.href
   },
   computed: {
-    ...mapState(['lang','cTitle', 'profile', 'isLogin']),
+    ...mapState(['lang','cTitle', 'profile', 'isLogin', 'isApi']),
     currentUrl() {
       if(this.url != null) this.$ga.screenview({
         appName: 'DearSakura',
@@ -162,7 +164,7 @@ export default {
     flex-direction: column!important;
     display: flex;
   }
-  body {
+  #app {
     text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, .5);
     margin: 0;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
@@ -170,8 +172,7 @@ export default {
     font-weight: 400;
     line-height: 1.5;
     background-color: #333;
-  }
-  #app {
+    color: #fff;
     color: #fff;
   }
   code {
