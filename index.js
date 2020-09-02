@@ -3,7 +3,7 @@ const app = new Koa()
 const serve = require('koa-static')
 
 const { createBundleRenderer } = require('vue-server-renderer')
-const template = require('fs').readFileSync('index.html', 'utf-8').replace(/<body>.*?<\/body>/si, '<!--vue-ssr-outlet-->')
+const template = require('fs').readFileSync('index.html', 'utf-8').replace(/<body>.*?<\/body>/si, '<body id="main-body"><!--vue-ssr-outlet--></body>')
 const serverBundle = require('./dist/vue-ssr-server-bundle.json')
 const clientManifest = require('./dist/vue-ssr-client-manifest.json')
 const renderer = createBundleRenderer(serverBundle, {

@@ -1,6 +1,6 @@
 <template>
-  <div id="app" v-if="!isApi">
-    <client-only>
+  <div id="app" v-if="!isApi" class="ds-layout">
+    <div class="ds-layout__section--full">
       <b-navbar toggleable="lg" type="dark" variant="dark">
         <b-navbar-brand to="/">DearSakura</b-navbar-brand>
 
@@ -31,16 +31,16 @@
           <router-view></router-view>
         </div>
       </section>
-      <footer class="footer">
-        <div class="footer__row">
-          <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
-          <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
-        </div>
-        <div class="footer__row">
-            DearSakura by <a class="footer__link" href="https://www.deachsword.com">DeachSword</a> 2020-{{ new Date().getFullYear() }}
-        </div>
-      </footer>
-    </client-only>
+    </div>
+    <footer class="footer">
+      <div class="footer__row">
+        <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
+        <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
+      </div>
+      <div class="footer__row">
+          DearSakura by <a class="footer__link" href="https://www.deachsword.com">DeachSword</a> 2020-{{ new Date().getFullYear() }}
+      </div>
+    </footer>
   </div>
   <div v-else>
     <router-view></router-view>
@@ -174,6 +174,20 @@ export default {
     background-color: #333;
     color: #fff;
     color: #fff;
+  }
+  .ds-layout {
+    display: flex;
+    flex-direction: column;
+    transition: opacity .2s ease-in-out,-webkit-filter .2s ease-in-out;
+    transition: filter .2s ease-in-out,opacity .2s ease-in-out;
+    transition: filter .2s ease-in-out,opacity .2s ease-in-out,-webkit-filter .2s ease-in-out;
+  }
+  .ds-layout__section {
+    display: flex;
+    flex-direction: column;
+  }
+  .ds-layout__section--full {
+    flex: 1 0 auto;
   }
   code {
     background-color: unset;
