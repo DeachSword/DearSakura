@@ -232,11 +232,6 @@ export default {
         background-position: -200% 0
     }
 }
-.favourites-btn {
-  top: 8px;
-  right: 8px;
-  position: absolute;
-}
 
 .message-footer-header__value {
     font-size: 12px;

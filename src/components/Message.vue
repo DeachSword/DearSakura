@@ -1,19 +1,35 @@
 <template>
-    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="width: auto;margin: 0.625rem;">
+    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="width: auto;margin: 0.625rem;" ref="msgBox">
         <template v-slot:header>
-            <code>To {{message.to}}</code>
-            
+          <div class="ds-layout" style="flex-direction: row;">
+            <code class="ds-layout__section--full">To {{message.to}}</code>
             <b-button
-            v-if="isLogin"
-            variant="outline-danger"
-            pill
-            right
-            v-b-tooltip.hover.bottom
-            title="收藏(beta)"
-            size="sm"
-            class="favourites-btn">
+              variant="outline-danger"
+              pill
+              right
+              v-b-tooltip.hover.bottom
+              title="收藏(beta)"
+              size="sm">
             <b-icon icon="heart"></b-icon>
             </b-button>
+            <b-button
+              variant="outline-dark"
+              pill
+              right
+              v-b-tooltip.hover.bottom
+              title="嵌入"
+              size="sm"
+              v-b-modal="'modal-msg-api2if_' + message.id">
+                <b-icon icon="three-dots-vertical" variant="white"></b-icon>
+            </b-button>
+            <b-modal centered :id="'modal-msg-api2if_' + message.id" title="嵌入網址" @shown="doCopy()">
+              <div>
+                <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
+                  <b-input :id="'inputApi2If_' + message.id" :value="getApi2Iframe()" readonly></b-input>
+                </b-input-group>
+          </div>
+            </b-modal>
+          </div>
         </template>
         <b-card-text>
             <pre style="color: unset" text-variant="white" 
@@ -66,7 +82,7 @@ import Qs from 'qs'
 
 export default {
   props: ['message'],
-  data() {
+  data: function()  {
     return {
         infoMsg: null,
         errorMsg: null,
@@ -74,7 +90,8 @@ export default {
         ratingData: {
             id: -1,
             rating: -1
-        }
+        },
+        _height: -1
     }
   },
   computed: {
@@ -108,7 +125,21 @@ export default {
           //
         }
       }
+    },
+    matchHeight() {
+      this.$data._height = this.$refs.msgBox.clientHeight;
+    },
+    getApi2Iframe(){
+      let base = `<iframe src="https://dearsakura.deachsword.com/api2/msg/${this.message.id}" width="100%" height="${this.$data._height}" style="border:none;overflow:hidden;min-height: ${this.$data._height}px;" scrolling="no" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+      return base
+    },
+    doCopy() {
+      document.querySelector(`#inputApi2If_${this.message.id}`).select()
+      document.execCommand('copy');
     }
+  },
+  mounted () {
+    this.matchHeight()
   }
 }
 </script>
