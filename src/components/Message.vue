@@ -127,7 +127,7 @@ export default {
       }
     },
     matchHeight() {
-      this.$data._height = this.$refs.msgBox.clientHeight;
+      this.$data._height = this.$refs.msgBox.offSetHeight; //clientHeight
     },
     getApi2Iframe(){
       let base = `<iframe src="https://dearsakura.deachsword.com/api2/msg/${this.message.id}" width="100%" height="${this.$data._height}" style="border:none;overflow:hidden;min-height: ${this.$data._height}px;" scrolling="no" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
