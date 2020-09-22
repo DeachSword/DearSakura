@@ -1,46 +1,48 @@
 <template>
-  <div id="app" v-if="!isApi" class="ds-layout">
-    <div class="ds-layout__section--full">
-      <b-navbar toggleable="lg" type="dark" variant="dark">
-        <b-navbar-brand to="/">DearSakura</b-navbar-brand>
+  <div v-if="!isApi">
+    <div id="app" v-if="!isApi" class="ds-layout">
+      <div class="ds-layout__section--full">
+        <b-navbar toggleable="lg" type="dark" variant="dark">
+          <b-navbar-brand to="/">DearSakura</b-navbar-brand>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item to="/create">{{$t('create.title')}}</b-nav-item>
-          </b-navbar-nav>
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+              <b-nav-item to="/create">{{$t('create.title')}}</b-nav-item>
+            </b-navbar-nav>
 
-          <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
 
-            <b-nav-item-dropdown :text="currentLang" right>
-              <b-dropdown-item  v-for="[lang, name] in availableLang" :key="lang" @click="updateLang(lang, $event)">
-                {{name}}
-              </b-dropdown-item>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item to="/about" id="about">{{'About'}}</b-dropdown-item>
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
+              <b-nav-item-dropdown :text="currentLang" right>
+                <b-dropdown-item  v-for="[lang, name] in availableLang" :key="lang" @click="updateLang(lang, $event)">
+                  {{name}}
+                </b-dropdown-item>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-item to="/about" id="about">{{'About'}}</b-dropdown-item>
+              </b-nav-item-dropdown>
+            </b-navbar-nav>
 
-          <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : $t('home.login.tipLogin')" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
-        </b-collapse>
-      </b-navbar>
-      <section class="section" @click="closeMenu">
-        <div class="container">
-          <router-view></router-view>
+            <b-button class="avatar avatar--nav2 js-current-user-avatar js-click-menu js-user-login--menu js-user-header avatar--guest js-click-menu--active" v-b-tooltip.hover :title="profile!=null ? profile.profile.displayName : $t('home.login.tipLogin')" :href="profile!=null ? '#' : 'https://www.deachsword.com/serverbot/sso'" :style="profile!=null ? `background-image:url('${profile.profile.pictureUrl}');` : ''"></b-button>
+          </b-collapse>
+        </b-navbar>
+        <section class="section" @click="closeMenu">
+          <div class="container">
+            <router-view></router-view>
+          </div>
+        </section>
+      </div>
+      <footer class="footer">
+        <div class="footer__row">
+          <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
+          <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
         </div>
-      </section>
+        <div class="footer__row">
+            DearSakura by <a class="footer__link" href="https://www.deachsword.com">DeachSword</a> 2020-{{ new Date().getFullYear() }}
+        </div>
+      </footer>
     </div>
-    <footer class="footer">
-      <div class="footer__row">
-        <a class="footer__link" href="https://github.com/DeachSword/DearSakura">{{$t('home.footer.source')}}</a>
-        <a class="footer__link" href="https://www.facebook.com/DeachSword.tw/">FaceBook</a>
-      </div>
-      <div class="footer__row">
-          DearSakura by <a class="footer__link" href="https://www.deachsword.com">DeachSword</a> 2020-{{ new Date().getFullYear() }}
-      </div>
-    </footer>
   </div>
   <div v-else>
     <router-view></router-view>

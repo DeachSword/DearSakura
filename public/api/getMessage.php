@@ -45,6 +45,19 @@ if(!empty($res_data['result']) && count($res_data['result']) > 0){
 			}
 		}
 		$_data['rating'] = round($_rating / $_rating_count, 2);
+		
+		$_data['has_favourited'] = false;
+		$_data['favourite_count'] = 0;
+		$ck3 = $db->query("select * from `dearsakura_favourites` where `msgId`='{$_data['id']}'");
+		if($ck3->num_rows > 0){
+			$_fav_data = $ck3->fetch_all(MYSQLI_ASSOC);
+			foreach($_fav_data as $_d){
+				$_data['favourite_count']++;
+				if($_d['accountId'] == $account->accountId){
+					$_data['has_favourited'] = true;
+				}
+			}
+		}
 	}
 }
 echo json_encode($res_data);

@@ -1,5 +1,5 @@
 <template>
-    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="width: auto;margin: 0.625rem;" ref="msgBox">
+    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="margin: 0.625rem;" ref="msgBox">
         <template v-slot:header>
           <div class="ds-layout" style="flex-direction: row;">
             <code class="ds-layout__section--full">To {{message.to}}</code>
@@ -8,9 +8,11 @@
               pill
               right
               v-b-tooltip.hover.bottom
-              title="收藏(beta)"
-              size="sm">
-            <b-icon icon="heart"></b-icon>
+              :title="message.has_favourited ? '取消收藏' : '收藏'"
+              size="sm"
+              @click="favourite()"
+            >
+              <b-icon :icon="message.has_favourited ? 'heart-fill' : 'heart'"></b-icon>
             </b-button>
             <b-button
               variant="outline-dark"
@@ -46,7 +48,7 @@
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="heart-fill"></b-icon>
                     </span>
-                    <span class="message-footer-header__value-name">0</span>
+                    <span class="message-footer-header__value-name">{{message.favourite_count}}</span>
                 </span>
                 <b-button variant="primary" class="message-footer-header__value" v-b-modal="isLogin ? 'modal-msg-rating_' + message.id : null"
                     :title="isLogin ? null : '登入後即可評價訊息!'" v-b-tooltip.hover.bottom>{{$t('message.rating')}}
@@ -125,6 +127,42 @@ export default {
           //
         }
       }
+    },
+    favourite() {
+      if(this.message.has_favourited){ //SO FOOL >:D
+        this.$axios.delete(`https://dearsakura.deachsword.com/api/favourites`, { data: { msgId: this.message.id } })
+        .then((response) => {
+          if(response.data.message !== "success"){
+            this.errorMsg = `取消收藏失敗: ${response.data.message}`
+          }else{
+            this.errorMsg = null
+            this.message.favourite_count = response.data.result.favourite_count
+            this.message.has_favourited = false
+          }
+        })
+        .catch((error) => {
+            console.log(error)
+            this.errorMsg = `取消收藏失敗...(|||ﾟдﾟ)`
+        })
+      }else{
+        this.$axios.post(`https://dearsakura.deachsword.com/api/favourites`, Qs.stringify({
+          "msgId" : this.message.id
+        }))
+        .then((response) => {
+          if(response.data.message !== "success"){
+            this.errorMsg = `收藏失敗: ${response.data.message}`
+          }else{
+            this.errorMsg = null
+            this.message.favourite_count = response.data.result.favourite_count
+            this.message.has_favourited = true
+          }
+        })
+        .catch((error) => {
+            console.log(error)
+            this.errorMsg = `收藏失敗...(|||ﾟдﾟ)`
+        })
+      }
+      try{this.$ga.event('DearSakura', { method: '訊息收藏' })}catch (error) {}
     },
     matchHeight() {
       this.$data._height = this.$refs.msgBox.offSetHeight; //clientHeight
