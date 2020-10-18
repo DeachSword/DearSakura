@@ -11,6 +11,7 @@
               :title="message.has_favourited ? '取消收藏' : '收藏'"
               size="sm"
               @click="favourite()"
+              v-show="isLogin"
             >
               <b-icon :icon="message.has_favourited ? 'heart-fill' : 'heart'"></b-icon>
             </b-button>
@@ -50,14 +51,14 @@
                     </span>
                     <span class="message-footer-header__value-name">{{message.favourite_count}}</span>
                 </span>
-                <b-button variant="primary" class="message-footer-header__value" v-b-modal="isLogin ? 'modal-msg-rating_' + message.id : null"
+                <b-button variant="primary" class="message-footer-header__value" v-b-modal="isLogin ? 'modal-msg-rating_' + rndkey + message.id : null"
                     :title="isLogin ? null : '登入後即可評價訊息!'" v-b-tooltip.hover.bottom>{{$t('message.rating')}}
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="star-fill"></b-icon>
                     </span>
                     <span class="message-footer-header__value-name">{{message.rating}}</span>
                 </b-button>
-                <b-modal centered :id="'modal-msg-rating_' + message.id" title="Submit Rating" @show="ratingData.rating=-1" @ok="rateMessage(message.id)" :ok-disabled="ratingData.rating != -1 ? false : true">
+                <b-modal centered :id="'modal-msg-rating_' + rndkey + message.id" title="Submit Rating" @show="ratingData.rating=-1" @ok="rateMessage(message.id)" :ok-disabled="ratingData.rating != -1 ? false : true">
                     <b-rating
                     v-if="isLogin || message.isRated"
                     icon-empty="heart"
@@ -93,7 +94,8 @@ export default {
             id: -1,
             rating: -1
         },
-        _height: -1
+        _height: -1,
+        rndkey: this.rndStr(7)
     }
   },
   computed: {
@@ -114,8 +116,8 @@ export default {
           }else{
             this.errorMsg = null
             this.message.rating = response.data.result
-            message.isRated = true
-            message.selfRating = this.ratingData.rating
+            this.message.isRated = true
+            this.message.selfRating = this.ratingData.rating
             this.infoMsg = `評分成功!`
           }
         })
@@ -174,7 +176,17 @@ export default {
     doCopy() {
       document.querySelector(`#inputApi2If_${this.message.id}`).select()
       document.execCommand('copy');
-    }
+    },
+    rndStr(len) {
+    	let text = " "
+    	let chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    
+      for( let i=0; i < len; i++ ) {
+				text += chars.charAt(Math.floor(Math.random() * chars.length))
+      }
+
+			return text
+		}
   },
   mounted () {
     this.matchHeight()

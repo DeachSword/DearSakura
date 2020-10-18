@@ -1,28 +1,31 @@
 <template>
-  <b-overlay :show="token==null ? true : false" variant="dark"
-          opacity="0.85"
-          blur="2px"
-          spinner-variant="white"
-          spinner-type="grow"
-          rounded="sm"
-        >
-    <createMsg :token="token"></createMsg>
-    <template v-slot:overlay>
-        <div class="text-center">
-          <b-icon icon="person-circle" font-scale="3" animation="cylon"></b-icon>
-          <p id="cancel-label">{{$t('create.loginTip')}}</p>
-          <b-button
-            href="https://www.deachsword.com/serverbot/sso"
-            variant="outline-info"
-            size="sm"
-            v-b-tooltip.hover 
-            :title="$t('home.login.tipLogin')"
+  <div>
+    <b-overlay :show="token==null ? true : false" variant="dark"
+            opacity="0.85"
+            blur="2px"
+            spinner-variant="white"
+            spinner-type="grow"
+            rounded="sm"
           >
-            LOGIN
-          </b-button>
-        </div>
-      </template>
-  </b-overlay>
+      <createMsg :token="token"></createMsg>
+      <template v-slot:overlay>
+          <div class="text-center">
+            <b-icon icon="person-circle" font-scale="3" animation="cylon"></b-icon>
+            <p id="cancel-label">{{$t('create.loginTip')}}</p>
+            <b-button
+              href="https://www.deachsword.com/serverbot/sso"
+              variant="outline-info"
+              size="sm"
+              v-b-tooltip.hover 
+              :title="$t('home.login.tipLogin')"
+            >
+              LOGIN
+            </b-button>
+          </div>
+        </template>
+    </b-overlay>
+    <b-alert variant="danger" :show="errorMsg != null ? true : false">{{errorMsg}}</b-alert>
+  </div>
 </template>
 
 <script>
@@ -34,7 +37,8 @@ export default {
   components: { createMsg },
   data() {
     return {
-      token: null
+      token: null,
+      errorMsg: null,
     }
   },
   beforeDestroy() {
@@ -44,7 +48,11 @@ export default {
     if(this.token === null){
       this.$axios.get('https://dearsakura.deachsword.com/api/issuetoken')
         .then((response) => {
-          this.token = response.data
+          if(response.data.message !== 'success'){
+
+          }else{
+            this.token = response.data
+          }
         })
         .catch(function (error) {
         });
