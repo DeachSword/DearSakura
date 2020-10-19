@@ -25,12 +25,21 @@
               v-b-modal="'modal-msg-api2if_' + message.id">
                 <b-icon icon="three-dots-vertical" variant="white"></b-icon>
             </b-button>
-            <b-modal centered :id="'modal-msg-api2if_' + message.id" title="嵌入網址" @shown="doCopy()">
+            <b-modal centered :id="'modal-msg-api2if_' + message.id" title="嵌入網址">
               <div>
-                <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
+                <b-input-group prepend="Iframe" class="mb-2 mr-sm-2 mb-sm-0">
                   <b-input :id="'inputApi2If_' + message.id" :value="getApi2Iframe()" readonly></b-input>
+                  <b-input-group-append>
+                    <b-button variant="info" @click="doCopy('inputApi2If')"><b-icon icon="files"></b-icon></b-button>
+                  </b-input-group-append>
                 </b-input-group>
-          </div>
+                <b-input-group prepend="URI" class="mb-2 mr-sm-2 mb-sm-0">
+                  <b-input :id="'inputApi2Uri_' + message.id" :value="getApi2Iframe(true)" readonly></b-input>
+                  <b-input-group-append>
+                    <b-button variant="info" @click="doCopy('inputApi2Uri')"><b-icon icon="files"></b-icon></b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
             </b-modal>
           </div>
         </template>
@@ -44,7 +53,8 @@
         </footer>
         
         <template v-slot:footer>
-            <div>
+            <div class="ds-layout" style="flex-direction: row;">
+              <div  class="ds-layout__section--full">
                 <span class="message-footer-header__value" title="收藏數" v-b-tooltip.hover.top>
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="heart-fill"></b-icon>
@@ -72,6 +82,10 @@
                     @change="ratingData.id=message.id, ratingData.rating=$event"
                     ></b-rating>
                 </b-modal>
+              </div>
+              <div v-if="isApi">
+                <b-button variant="outline-light" class="message-footer-header__value" :to="'/message/' + message.to">查看貼文串</b-button>
+              </div>
             </div>
             <b-alert variant="success" :show="infoMsg != null ? true : false">{{infoMsg}}</b-alert>
             <b-alert variant="danger" :show="errorMsg != null ? true : false">{{errorMsg}}</b-alert>
@@ -99,7 +113,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['profile', 'isLogin'])
+    ...mapState(['profile', 'isLogin', 'isApi'])
   },
   methods: {
     rateMessage(msgId){
@@ -169,12 +183,14 @@ export default {
     matchHeight() {
       this.$data._height = this.$refs.msgBox.offsetHeight; //clientHeight
     },
-    getApi2Iframe(){
-      let base = `<iframe src="https://dearsakura.deachsword.com/api2/msg/${this.message.id}" width="100%" height="${this.$data._height}" style="border:none;overflow:hidden;min-height: ${this.$data._height}px;" scrolling="no" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+    getApi2Iframe(urionly=false){
+      let apiUri = `https://dearsakura.deachsword.com/api2/msg/${this.message.id}`
+      if(urionly) return apiUri
+      let base = `<iframe src="${apiUri}" width="100%" height="${this.$data._height}" style="border:none;overflow:hidden;min-height: ${this.$data._height}px;" scrolling="no" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
       return base
     },
-    doCopy() {
-      document.querySelector(`#inputApi2If_${this.message.id}`).select()
+    doCopy(key) {
+      document.querySelector(`#${key}_${this.message.id}`).select()
       document.execCommand('copy');
     },
     rndStr(len) {

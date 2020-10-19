@@ -18,11 +18,16 @@ if(!empty($to)){
 	$res_data['result'] = $data;
 }else if(isset($_GET['msgid'])){
 	$msgId = $_GET['msgid'];
-	$res_data['code'] = 0;
-	$res_data['message'] = 'success';
-	$ck = $db->query("select `id`, `to`, `_from`, `message`, `createdTime` from `dearsakura` where `id`='{$msgId}'");
-	$data = $ck->fetch_all(MYSQLI_ASSOC);
-	$res_data['result'] = $data;
+	if($msgId !== '1'){
+		$res_data['code'] = 0;
+		$res_data['message'] = 'success';
+		$ck = $db->query("select `id`, `to`, `_from`, `message`, `createdTime` from `dearsakura` where `id`='{$msgId}'");
+		$data = $ck->fetch_all(MYSQLI_ASSOC);
+		$res_data['result'] = $data;
+	}else{
+		$res_data['code'] = 20;
+		$res_data['message'] = 'I miss you.';
+	}
 }
 
 if(!empty($res_data['result']) && count($res_data['result']) > 0){
