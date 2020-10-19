@@ -22,19 +22,19 @@
               v-b-tooltip.hover.bottom
               title="嵌入"
               size="sm"
-              v-b-modal="'modal-msg-api2if_' + message.id">
+              v-b-modal="'modal-msg-api2if_' + rndkey + message.id">
                 <b-icon icon="three-dots-vertical" variant="white"></b-icon>
             </b-button>
-            <b-modal centered :id="'modal-msg-api2if_' + message.id" title="嵌入網址">
+            <b-modal centered :id="'modal-msg-api2if_' + rndkey + message.id" title="嵌入網址">
               <div>
                 <b-input-group prepend="Iframe" class="mb-2 mr-sm-2 mb-sm-0">
-                  <b-input :id="'inputApi2If_' + message.id" :value="getApi2Iframe()" readonly></b-input>
+                  <b-input :id="'inputApi2If_' + rndkey + message.id" :value="getApi2Iframe()" readonly></b-input>
                   <b-input-group-append>
                     <b-button variant="info" @click="doCopy('inputApi2If')"><b-icon icon="files"></b-icon></b-button>
                   </b-input-group-append>
                 </b-input-group>
                 <b-input-group prepend="URI" class="mb-2 mr-sm-2 mb-sm-0">
-                  <b-input :id="'inputApi2Uri_' + message.id" :value="getApi2Iframe(true)" readonly></b-input>
+                  <b-input :id="'inputApi2Uri_' + rndkey + message.id" :value="getApi2Iframe(true)" readonly></b-input>
                   <b-input-group-append>
                     <b-button variant="info" @click="doCopy('inputApi2Uri')"><b-icon icon="files"></b-icon></b-button>
                   </b-input-group-append>
@@ -190,11 +190,11 @@ export default {
       return base
     },
     doCopy(key) {
-      document.querySelector(`#${key}_${this.message.id}`).select()
+      document.querySelector(`#${key}_${this.rndkey}${this.message.id}`).select()
       document.execCommand('copy');
     },
     rndStr(len) {
-    	let text = " "
+    	let text = ""
     	let chars = "abcdefghijklmnopqrstuvwxyz0123456789"
     
       for( let i=0; i < len; i++ ) {
