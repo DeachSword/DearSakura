@@ -9,22 +9,29 @@
           >
       <createMsg :token="token"></createMsg>
       <template v-slot:overlay>
-          <div class="text-center">
-            <b-icon icon="person-circle" font-scale="3" animation="cylon"></b-icon>
-            <p id="cancel-label">{{$t('create.loginTip')}}</p>
-            <b-button
-              href="https://www.deachsword.com/serverbot/sso"
-              variant="outline-info"
-              size="sm"
-              v-b-tooltip.hover 
-              :title="$t('home.login.tipLogin')"
-            >
-              LOGIN
-            </b-button>
+          <div v-if="errorMsg == null">
+            <div class="text-center">
+              <b-icon icon="person-circle" font-scale="3" animation="cylon"></b-icon>
+              <p id="cancel-label">{{$t('create.loginTip')}}</p>
+              <b-button
+                href="https://www.deachsword.com/serverbot/sso"
+                variant="outline-info"
+                size="sm"
+                v-b-tooltip.hover 
+                :title="$t('home.login.tipLogin')"
+              >
+                LOGIN
+              </b-button>
+            </div>
+          </div>
+          <div v-else>
+            <div class="text-center">
+              <b-icon variant="danger" icon="exclamation-circle-fill" font-scale="3"></b-icon>
+              <p id="cancel-label">{{errorMsg}}</p>
+            </div>
           </div>
         </template>
     </b-overlay>
-    <b-alert variant="danger" :show="errorMsg != null ? true : false">{{errorMsg}}</b-alert>
   </div>
 </template>
 
@@ -49,9 +56,9 @@ export default {
       this.$axios.get('https://dearsakura.deachsword.com/api/issuetoken')
         .then((response) => {
           if(response.data.message !== 'success'){
-
+            this.errorMsg = response.data.message
           }else{
-            this.token = response.data
+            this.token = response.data.result
           }
         })
         .catch(function (error) {

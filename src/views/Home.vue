@@ -51,7 +51,11 @@ export default {
     ...mapState(['lang'])
   },
   created() {
-    this.getMyPageInfo()
+    this.getMyPageInfo();
+    if(this.$route.query.to !== undefined){
+      this.$router.push({ path: `/message/${this.$route.query.to}` })
+      //this.search = this.$route.query.to
+    }
   },
   methods: {
     ...mapMutations(['setLang', 'updateTitle', 'setProfile', 'setLoginState']),
