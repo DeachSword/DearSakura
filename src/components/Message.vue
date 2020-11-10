@@ -61,8 +61,7 @@
                     </span>
                     <span class="message-footer-header__value-name">{{message.favourite_count}}</span>
                 </span>
-                <b-button variant="primary" class="message-footer-header__value" v-b-modal="isLogin ? 'modal-msg-rating_' + rndkey + message.id : null"
-                    :title="isLogin ? null : '登入後即可評價訊息!'" v-b-tooltip.hover.bottom>{{$t('message.rating')}}
+                <b-button variant="primary" class="message-footer-header__value" v-b-modal="isLogin ? 'modal-msg-rating_' + rndkey + message.id : null">{{$t('message.rating')}}
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="star-fill"></b-icon>
                     </span>
@@ -81,6 +80,7 @@
                     :readonly="(message.isRated || !message.canRating)? true : false"
                     @change="ratingData.id=message.id, ratingData.rating=$event"
                     ></b-rating>
+                    <span v-else="">登入後即可評價訊息!</span>
                 </b-modal>
               </div>
               <b-button variant="info" class="message-footer-header__value" v-b-modal="'modal-msg-comments_' + rndkey + message.id"><b-icon icon="chat-dots-fill"></b-icon>  {{message.comment_count}} 則留言</b-button>
@@ -94,11 +94,15 @@
                   沒有留言ヽ(･ω･｀)
                 </div>
                 <div v-else>
-                  <b-card bg-variant="white" text-variant="dark" v-for="cmt in message.comments">
+                  <b-card bg-variant="white" text-variant="dark" v-for="cmt in availableComments">
                     <b-avatar :src="getUserData(cmt.userId).pictureUrl"></b-avatar><b class="ml-2">{{getUserData(cmt.userId).displayName}}</b>
                     <b-card-text class="ml-5">
                       {{cmt.message}}
-                      <div class="text-secondary">{{cmt.createdTime}}</div>
+                      <div class="text-secondary">{{cmt.createdTime}}
+                        <b-button-group size="sm">
+                          <b-button v-if="isLogin && profile.profile.id == cmt.userId && cmt.deletedTime == null" variant="outline-dark" @click="deleteComment(cmt.id)">刪除</b-button>
+                        </b-button-group>
+                      </div>
                     </b-card-text>
                   </b-card>
                 </div>
@@ -149,7 +153,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['profile', 'isLogin', 'isApi', 'users'])
+    ...mapState(['profile', 'isLogin', 'isApi', 'users']),
+    availableComments() {
+      return this.message.comments.filter(comment => comment.deletedTime == null)
+    }
   },
   methods: {
     rateMessage(msgId){
@@ -227,8 +234,8 @@ export default {
         if(response.data.message !== "success"){
           alert(`can't comment! \n\n${response.data.message}`)
         }else{
-          console.log('comment success!')
-          console.log(response.data)
+          this.message.comment_count += 1
+          this.message.comments.push(response.data.result)
         }
       })
       .catch((error) => {
@@ -237,6 +244,35 @@ export default {
           switch (err_code) {
             case 500:
               alert("server error, can't comment!")
+              break;
+            default:
+              alert(error.response.data.message)
+              break;
+          }
+      })
+    },
+    deleteComment(a) {
+      var r = confirm("delete?");
+      if(!r) return;
+      this.$axios.delete(`https://dearsakura.deachsword.com/api/comments.php`, { data: { comment_id: a } })
+      .then((response) => {
+        if(response.data.message !== "success"){
+          alert(`can't delete comment! \n\n${response.data.message}`)
+        }else{
+          this.message.comment_count -= 1
+          this.message.comments.forEach(function(item, index, object) {
+            if (item.id === a) {
+              object.splice(index, 1);
+            }
+          });
+        }
+      })
+      .catch((error) => {
+          console.log(error)
+          var err_code = error.response.status
+          switch (err_code) {
+            case 500:
+              alert("server error, can't delete comment!")
               break;
             default:
               alert(error.response.data.message)

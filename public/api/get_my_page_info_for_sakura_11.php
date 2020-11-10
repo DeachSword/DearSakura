@@ -81,7 +81,9 @@
                             'userId' => $_d['accountId'],
                             'message' => $_d['message'],
                             'replies_count' => 0,
-                            'createdTime' => $_d['createdTime']
+                            'createdTime' => $_d['createdTime'],
+                            'editedTime' => $_d['editedTime'],
+                            'deletedTime' => $_d['deletedTime']
                         ];
                         $_data['comments'][] = $cmtData;
                         if(!in_array($_d['accountId'], $userIds)) $userIds[] = $_d['accountId'];
