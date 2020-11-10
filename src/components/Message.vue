@@ -83,9 +83,42 @@
                     ></b-rating>
                 </b-modal>
               </div>
+              <b-button variant="info" class="message-footer-header__value" v-b-modal="'modal-msg-comments_' + rndkey + message.id"><b-icon icon="chat-dots-fill"></b-icon>  {{message.comment_count}} 則留言</b-button>
               <div v-if="isApi">
                 <b-button variant="outline-light" class="message-footer-header__value" :to="'/message/' + message.to">查看貼文串</b-button>
               </div>
+              <b-modal centered :id="'modal-msg-comments_' + rndkey + message.id" size="xl" title="Comments"
+                footer-bg-variant="dark"
+                footer-text-variant="light">
+                <div v-if="message.comment_count == 0">
+                  沒有留言ヽ(･ω･｀)
+                </div>
+                <div v-else>
+                  <b-card bg-variant="white" text-variant="dark" v-for="cmt in message.comments">
+                    <b-avatar :src="getUserData(cmt.userId).pictureUrl"></b-avatar><b class="ml-2">{{getUserData(cmt.userId).displayName}}</b>
+                    <b-card-text class="ml-5">
+                      {{cmt.message}}
+                      <div class="text-secondary">{{cmt.createdTime}}</div>
+                    </b-card-text>
+                  </b-card>
+                </div>
+                <template #modal-footer>
+                  <div class="w-100">
+                    <b-form-textarea
+                      name="comment_message"
+                      v-model="commentData.message"
+                      placeholder="在此輸入新留言"
+                      max-rows="5"
+                      no-resize
+                      :disabled="!isLogin"
+                    ></b-form-textarea>
+                    <b-button v-if="isLogin" pill class="comment-editor_submit-btn" :disabled="commentData.message == '' ? true : false" @click="submitComment('messageset', message.id, commentData.message)">發表</b-button>
+                    <b-button v-else pill class="comment-editor_submit-btn" variant="success" href="https://www.deachsword.com/serverbot/sso">
+                      <b-icon icon="lock-fill"></b-icon> 登入以留言
+                    </b-button>
+                  </div>
+                </template>
+              </b-modal>
             </div>
             <b-alert variant="success" :show="infoMsg != null ? true : false">{{infoMsg}}</b-alert>
             <b-alert variant="danger" :show="errorMsg != null ? true : false">{{errorMsg}}</b-alert>
@@ -108,12 +141,15 @@ export default {
             id: -1,
             rating: -1
         },
+        commentData: {
+            message: ''
+        },
         _height: -1,
         rndkey: this.rndStr(7)
     }
   },
   computed: {
-    ...mapState(['profile', 'isLogin', 'isApi'])
+    ...mapState(['profile', 'isLogin', 'isApi', 'users'])
   },
   methods: {
     rateMessage(msgId){
@@ -179,6 +215,42 @@ export default {
         })
       }
       try{this.$ga.event('DearSakura', { method: '訊息收藏' })}catch (error) {}
+    },
+    submitComment(a1, a2, a3) {
+      this.commentData.message = '';
+      this.$axios.post(`https://dearsakura.deachsword.com/api/comments`, Qs.stringify({
+        "commentable_type": a1,
+        "commentable_id": a2,
+        "message": a3
+      }))
+      .then((response) => {
+        if(response.data.message !== "success"){
+          alert(`can't comment! \n\n${response.data.message}`)
+        }else{
+          console.log('comment success!')
+          console.log(response.data)
+        }
+      })
+      .catch((error) => {
+          console.log(error)
+          var err_code = error.response.status
+          switch (err_code) {
+            case 500:
+              alert("server error, can't comment!")
+              break;
+            default:
+              alert(error.response.data.message)
+              break;
+          }
+      })
+    },
+    getUserData(mid) {
+      if(mid in this.users) return this.users[mid];
+      console.log(`[getUserData] user not found: ${mid}`)
+      return {
+        'displayName': '未知用戶',
+        'pictureUrl': null
+      }
     },
     matchHeight() {
       this.$data._height = this.$refs.msgBox.offsetHeight; //clientHeight

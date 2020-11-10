@@ -13,7 +13,7 @@
     <!-- 最受喜歡 -->
     <section id="recent-posts-3" class="widget mt-3">
         <h3>Most Favorites</h3>
-        <b-card-group columns style="column-count: 2;" v-if="favorites.length > 0">
+        <b-card-group columns v-if="favorites.length > 0">
           <message v-for="(d, i) in favorites" :key="'mf_' + i" :message="d"></message>
         </b-card-group>
         <div v-else>
@@ -23,7 +23,7 @@
     <!-- 最高評價 -->
     <section id="recent-posts-3" class="widget mt-3">
         <h3>Top Rated</h3>
-        <b-card-group columns style="column-count: 2;" v-if="rated.length > 0">
+        <b-card-group columns v-if="rated.length > 0">
           <message v-for="(d, i) in rated" :key="'tr_' + i" :message="d"></message>
         </b-card-group>
         <div v-else>
@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLang', 'updateTitle', 'setProfile', 'setLoginState']),
+    ...mapMutations(['setUsers']),
     getMyPageInfo() {
       this.$axios.post('https://dearsakura.deachsword.com/api/get_my_page_info_for_sakura_11', null)
         .then((response) => {
@@ -67,6 +67,7 @@ export default {
           }else{
             this.favorites = response.data.result.favorites
             this.rated = response.data.result.rated
+            this.setUsers(response.data.result.users)
           }
         })
         .catch(function (error) {
