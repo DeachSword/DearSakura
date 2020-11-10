@@ -30,13 +30,14 @@
         },
         components: { message },
         methods: {
-            ...mapMutations(['setApiState']),
+            ...mapMutations(['setApiState', 'setUsers']),
             findMessage() {
                 this.$axios.get('https://dearsakura.deachsword.com/api/getmessage?msgid=' + this.msgId)
                 .then((response) => {
                     if(response.data.message == "success"){
-                        if(response.data.result.length > 0){
-                            this.message = response.data.result[0]
+                        if(response.data.result.messages.length > 0){
+                            this.message = response.data.result.messages[0]
+                            this.setUsers(response.data.result.users)
                         }
                     }else{
                         this.errMsg = response.data.message

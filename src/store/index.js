@@ -34,7 +34,8 @@ export const createStore = ({ lang, changeTitle , document}) => {
       profile: null,
       isLogin: false,
       isApi: false,
-      isJsonReander: false
+      isJsonReander: false,
+      users: {}
     },
     getters: {},
     mutations: {
@@ -66,6 +67,11 @@ export const createStore = ({ lang, changeTitle , document}) => {
       },
       setJsonReander(state, data) {
         state.isJsonReander = data
+      },
+      setUsers(state, data) {
+        data.forEach(p => {
+          state.users[p.userId] = p
+        });
       },
     },
     actions: {}

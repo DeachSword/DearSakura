@@ -6,6 +6,7 @@
         'message' => 'No results were found for the\nrequested user information.\nPlease check and try again.',
         'result' => null
     ];
+    $isDev = false;
     if($account->isLogin){
         switch($_SERVER['REQUEST_METHOD']){
             case 'POST':
@@ -21,7 +22,7 @@
                 else if(!empty($tableType) && !empty($tableId)){
                     $ck1 = $db->query("select `id` from `dearsakura` where `id`='{$tableId}'") or $isErr = true;
                     if($ck1->num_rows > 0){
-                        if($account->isAdmin){
+                        if(!$isDev || $account->isAdmin){
                             $message = str_replace("'", "\'", $message);
                             $message = str_replace("<", "", $message);
                             $message = str_replace(">", "", $message);

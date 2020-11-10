@@ -90,14 +90,15 @@
               <b-modal centered :id="'modal-msg-comments_' + rndkey + message.id" size="xl" title="Comments"
                 footer-bg-variant="dark"
                 footer-text-variant="light">
-                <div v-if="message.comments > 0">
+                <div v-if="message.comment_count == 0">
                   沒有留言ヽ(･ω･｀)
                 </div>
                 <div v-else>
-                  <b-card bg-variant="dark" text-variant="white" v-for="cmt in message.comments">
-                    <b-avatar :src="getUserData(cmt.userId).pictureUrl"></b-avatar>
-                    <b-card-text>
+                  <b-card bg-variant="white" text-variant="dark" v-for="cmt in message.comments">
+                    <b-avatar :src="getUserData(cmt.userId).pictureUrl"></b-avatar><b class="ml-2">{{getUserData(cmt.userId).displayName}}</b>
+                    <b-card-text class="ml-5">
                       {{cmt.message}}
+                      <div class="text-secondary">{{cmt.createdTime}}</div>
                     </b-card-text>
                   </b-card>
                 </div>
@@ -111,7 +112,10 @@
                       no-resize
                       :disabled="!isLogin"
                     ></b-form-textarea>
-                    <b-button pill class="comment-editor_submit-btn" :disabled="commentData.message == '' ? true : false" @click="submitComment('messageset', message.id, commentData.message)">{{isLogin ? "發表" : "登入以留言"}}</b-button>
+                    <b-button v-if="isLogin" pill class="comment-editor_submit-btn" :disabled="commentData.message == '' ? true : false" @click="submitComment('messageset', message.id, commentData.message)">發表</b-button>
+                    <b-button v-else pill class="comment-editor_submit-btn" variant="success" href="https://www.deachsword.com/serverbot/sso">
+                      <b-icon icon="lock-fill"></b-icon> 登入以留言
+                    </b-button>
                   </div>
                 </template>
               </b-modal>
@@ -145,7 +149,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['profile', 'isLogin', 'isApi'])
+    ...mapState(['profile', 'isLogin', 'isApi', 'users'])
   },
   methods: {
     rateMessage(msgId){
@@ -241,8 +245,8 @@ export default {
       })
     },
     getUserData(mid) {
-      var di = this.users.indexOf(mid)
-      if(di >= 0) return this.users[di];
+      if(mid in this.users) return this.users[mid];
+      console.log(`[getUserData] user not found: ${mid}`)
       return {
         'displayName': '未知用戶',
         'pictureUrl': null

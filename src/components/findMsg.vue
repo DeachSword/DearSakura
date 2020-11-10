@@ -123,7 +123,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['removeTitle', 'updateTitle']),
+    ...mapMutations(['removeTitle', 'updateTitle', 'setUsers']),
     ...mapState(['lang']),
     findMessage(name) {
       const _name = this.search != null ? this.search.toLocaleLowerCase() : null
@@ -136,7 +136,8 @@ export default {
           }else{
             this.errorMsg = null
             this.infoMsg = `搜尋成功!`
-            this.messages = response.data.result
+            this.setUsers(response.data.result.users)
+            this.messages = response.data.result.messages
           }
           this.pushRouter()
         })
