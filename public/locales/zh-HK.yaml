@@ -9,6 +9,15 @@ create:
     _from: 我. . .(自身暱稱)
     message: 我的心意...
     to: 能夠傳達給. . .(她的暱稱)
+    tag:
+      recommend: 建議標籤
+      addBtn: 添加
+      removeBtn: 移除
+      customTagInput: 新的Tag請按enter進行添加
+      searchTagsLabel: 搜尋標籤
+      searchTagsNotFound: 沒有符合條件的標籤
+      searchTagsNoAvailableTags: 沒有可用的標籤
+    msgTextNotEnough: 字數不能小於10
   p1: 啊啊啊、也許有一天...
   submit: 發送
   title: 創建訊息
@@ -31,4 +40,31 @@ home:
 tran:
   local: 中文
 message:
-  rating: 评价
+  favourite:
+    add: 收藏
+    remove: 取消收藏
+    count: 收藏數
+    addFailed: 收藏失敗
+    removeFailed: 取消收藏失敗
+  embed:
+    embedBtn: 嵌入
+    title: 嵌入網址
+  author: 作成者
+  message: 訊息
+  rating:
+    ratingBtn: 评价
+    title: 評分
+    success: 評分成功
+    failed: 評分失敗
+  comment:
+    commentBtn: 則留言
+    title: 留言
+    noComment: 沒有留言
+    delete: 刪除
+    commentTip: 在此輸入留言
+    submit: 發表
+    submitFailed: 留言失敗
+    deleteFailed: 刪除留言失敗
+  gotoOtherMessageBtn: 查看貼文串
+profile:
+  unknownerName: 不明用戶

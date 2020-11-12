@@ -9,6 +9,15 @@ create:
     _from: I... (own nickname)
     message: my thought...
     to: Able to communicate to... (her nickname)
+    tag:
+      recommend: Recommend tags
+      addBtn: Add
+      removeBtn: remove
+      customTagInput: New tag - Press enter to add
+      searchTagsLabel: Search tags
+      searchTagsNotFound: There are no tags matching your search criteria
+      searchTagsNoAvailableTags: There are no tags available to select
+    msgTextNotEnough: Message content must be greater than 10 characters
   p1: Ah... maybe one day...
   submit: Send
   title: Create Message
@@ -31,4 +40,31 @@ home:
 tran:
   local: English
 message:
-  rating: Rating
+  favourite:
+    add: Favourite
+    remove: Remove favourite
+    count: Favourite count
+    addFailed: Add favourite failed
+    removeFailed: Remove favourite failed
+  embed:
+    embedBtn: Embed
+    title: Embed URI
+  author: Author
+  message: Message
+  rating:
+    ratingBtn: Rating
+    title: Submit rating
+    success: Rating success
+    failed: Rating failed
+  comment:
+    commentBtn: comments
+    title: Comments
+    noComment: No comments
+    delete: Delete
+    commentTip: Enter your comment here
+    submit: Submit
+    submitFailed: Submit comment failed
+    deleteFailed: Delete comment failed
+  gotoOtherMessageBtn: View related posts
+profile:
+  unknownerName: Unknown User

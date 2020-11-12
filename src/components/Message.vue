@@ -8,7 +8,7 @@
               pill
               right
               v-b-tooltip.hover.bottom
-              :title="message.has_favourited ? '取消收藏' : '收藏'"
+              :title="message.has_favourited ? $t('message.favourite.remove') : $t('message.favourite.add')"
               size="sm"
               @click="favourite()"
               v-show="isLogin"
@@ -20,12 +20,12 @@
               pill
               right
               v-b-tooltip.hover.bottom
-              title="嵌入"
+              :title="$t('message.embed.embedBtn')"
               size="sm"
               v-b-modal="'modal-msg-api2if_' + rndkey + message.id">
                 <b-icon icon="three-dots-vertical" variant="white"></b-icon>
             </b-button>
-            <b-modal centered :id="'modal-msg-api2if_' + rndkey + message.id" title="嵌入網址">
+            <b-modal centered :id="'modal-msg-api2if_' + rndkey + message.id" :title="$t('message.embed.title')">
               <div>
                 <b-input-group prepend="Iframe" class="mb-2 mr-sm-2 mb-sm-0">
                   <b-input :id="'inputApi2If_' + rndkey + message.id" :value="getApi2Iframe()" readonly></b-input>
@@ -45,29 +45,29 @@
         </template>
         <b-card-text>
             <pre style="color: unset" text-variant="white" 
-            v-b-tooltip.hover.bottom title="Message">{{message.message}}</pre>
+            v-b-tooltip.hover.bottom :title="$t('message.message')">{{message.message}}</pre>
         </b-card-text>
 
         <footer class="blockquote-footer text-right text-white"><cite 
-            v-b-tooltip.hover.bottom title="作成者">{{message._from}}</cite> sub on {{message.createdTime}}
+            v-b-tooltip.hover.bottom :title="$t('message.author')">{{message._from}}</cite> sub on {{message.createdTime}}
         </footer>
         
         <template v-slot:footer>
             <div class="ds-layout" style="flex-direction: row;">
               <div  class="ds-layout__section--full">
-                <span class="message-footer-header__value" title="收藏數" v-b-tooltip.hover.top>
+                <span class="message-footer-header__value" :title="$t('message.favourite.count')" v-b-tooltip.hover.top>
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="heart-fill"></b-icon>
                     </span>
                     <span class="message-footer-header__value-name">{{message.favourite_count}}</span>
                 </span>
-                <b-button variant="primary" class="message-footer-header__value" v-b-modal="isLogin ? 'modal-msg-rating_' + rndkey + message.id : null">{{$t('message.rating')}}
+                <b-button variant="primary" class="message-footer-header__value" v-b-modal="'modal-msg-rating_' + rndkey + message.id">{{$t('message.rating.ratingBtn')}}
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="star-fill"></b-icon>
                     </span>
                     <span class="message-footer-header__value-name">{{message.rating}}</span>
                 </b-button>
-                <b-modal centered :id="'modal-msg-rating_' + rndkey + message.id" title="Submit Rating" @show="ratingData.rating=-1" @ok="rateMessage(message.id)" :ok-disabled="ratingData.rating != -1 ? false : true">
+                <b-modal centered :id="'modal-msg-rating_' + rndkey + message.id" :title="$t('message.rating.title')" @show="ratingData.rating=-1">
                     <b-rating
                     v-if="isLogin || message.isRated"
                     icon-empty="heart"
@@ -80,18 +80,24 @@
                     :readonly="(message.isRated || !message.canRating)? true : false"
                     @change="ratingData.id=message.id, ratingData.rating=$event"
                     ></b-rating>
-                    <span v-else="">登入後即可評價訊息!</span>
+                    <span v-else="">{{$t('create.loginTip')}}!</span>
+                    <template #modal-footer>
+                        <b-button v-if="isLogin" pill class="comment-editor_submit-btn" :disabled="ratingData.rating != -1 ? false : true" @click="rateMessage(message.id)">OK</b-button>
+                        <b-button v-else pill class="comment-editor_submit-btn" variant="success" href="https://www.deachsword.com/serverbot/sso">
+                          <b-icon icon="lock-fill"></b-icon> LOGIN
+                        </b-button>
+                    </template>
                 </b-modal>
               </div>
-              <b-button variant="info" class="message-footer-header__value" v-b-modal="'modal-msg-comments_' + rndkey + message.id"><b-icon icon="chat-dots-fill"></b-icon>  {{message.comment_count}} 則留言</b-button>
+              <b-button variant="info" class="message-footer-header__value" v-b-modal="'modal-msg-comments_' + rndkey + message.id"><b-icon icon="chat-dots-fill"></b-icon>  {{message.comment_count}} {{$t('message.comment.commentBtn')}}</b-button>
               <div v-if="isApi">
-                <b-button variant="outline-light" class="message-footer-header__value" :to="'/message/' + message.to">查看貼文串</b-button>
+                <b-button variant="outline-light" class="message-footer-header__value" :to="'/message/' + message.to">{{$t('message.gotoOtherMessageBtn')}}</b-button>
               </div>
-              <b-modal centered :id="'modal-msg-comments_' + rndkey + message.id" size="xl" title="Comments"
+              <b-modal centered :id="'modal-msg-comments_' + rndkey + message.id" size="xl" :title="$t('message.comment.title')"
                 footer-bg-variant="dark"
                 footer-text-variant="light">
                 <div v-if="message.comment_count == 0">
-                  沒有留言ヽ(･ω･｀)
+                  {{$t('message.comment.noComment')}}ヽ(･ω･｀)
                 </div>
                 <div v-else>
                   <b-card bg-variant="white" text-variant="dark" v-for="cmt in availableComments">
@@ -100,7 +106,7 @@
                       {{cmt.message}}
                       <div class="text-secondary">{{cmt.createdTime}}
                         <b-button-group size="sm">
-                          <b-button v-if="isLogin && profile.profile.id == cmt.userId && cmt.deletedTime == null" variant="outline-dark" @click="deleteComment(cmt.id)">刪除</b-button>
+                          <b-button v-if="isLogin && profile.profile.id == cmt.userId && cmt.deletedTime == null" variant="outline-dark" @click="deleteComment(cmt.id)">{{$t('message.comment.delete')}}</b-button>
                         </b-button-group>
                       </div>
                     </b-card-text>
@@ -111,14 +117,14 @@
                     <b-form-textarea
                       name="comment_message"
                       v-model="commentData.message"
-                      placeholder="在此輸入新留言"
+                      :placeholder="$t('message.comment.commentTip')"
                       max-rows="5"
                       no-resize
                       :disabled="!isLogin"
                     ></b-form-textarea>
-                    <b-button v-if="isLogin" pill class="comment-editor_submit-btn" :disabled="commentData.message == '' ? true : false" @click="submitComment('messageset', message.id, commentData.message)">發表</b-button>
+                    <b-button v-if="isLogin" pill class="comment-editor_submit-btn" :disabled="commentData.message == '' ? true : false" @click="submitComment('messageset', message.id, commentData.message)">{{$t('message.comment.submit')}}</b-button>
                     <b-button v-else pill class="comment-editor_submit-btn" variant="success" href="https://www.deachsword.com/serverbot/sso">
-                      <b-icon icon="lock-fill"></b-icon> 登入以留言
+                      <b-icon icon="lock-fill"></b-icon> LOGIN
                     </b-button>
                   </div>
                 </template>
@@ -169,18 +175,18 @@ export default {
         }))
         .then((response) => {
           if(response.data.message !== "success"){
-            this.errorMsg = `評分失敗: ${response.data.message}`
+            this.errorMsg = `${this.$t('message.rating.failed')}: ${response.data.message}`
           }else{
             this.errorMsg = null
             this.message.rating = response.data.result
             this.message.isRated = true
             this.message.selfRating = this.ratingData.rating
-            this.infoMsg = `評分成功!`
+            this.infoMsg = `${this.$t('message.rating.success')}!`
           }
         })
         .catch((error) => {
             console.log(error)
-            this.errorMsg = `評分失敗: 請聯絡管理員`
+            this.errorMsg = `${this.$t('message.rating.failed')}: Server error`
         })
         try{this.$ga.event('DearSakura', { method: '訊息評分' })}catch (error) {
           //
@@ -192,7 +198,7 @@ export default {
         this.$axios.delete(`https://dearsakura.deachsword.com/api/favourites`, { data: { msgId: this.message.id } })
         .then((response) => {
           if(response.data.message !== "success"){
-            this.errorMsg = `取消收藏失敗: ${response.data.message}`
+            this.errorMsg = `${this.$t('message.favourite.removeFailed')}: ${response.data.message}`
           }else{
             this.errorMsg = null
             this.message.favourite_count = response.data.result.favourite_count
@@ -201,7 +207,7 @@ export default {
         })
         .catch((error) => {
             console.log(error)
-            this.errorMsg = `取消收藏失敗...(|||ﾟдﾟ)`
+            this.errorMsg = `${this.$t('message.favourite.removeFailed')}: Server error...(|||ﾟдﾟ)`
         })
       }else{
         this.$axios.post(`https://dearsakura.deachsword.com/api/favourites`, Qs.stringify({
@@ -209,7 +215,7 @@ export default {
         }))
         .then((response) => {
           if(response.data.message !== "success"){
-            this.errorMsg = `收藏失敗: ${response.data.message}`
+            this.errorMsg = `${this.$t('message.favourite.addFailed')}: ${response.data.message}`
           }else{
             this.errorMsg = null
             this.message.favourite_count = response.data.result.favourite_count
@@ -218,7 +224,7 @@ export default {
         })
         .catch((error) => {
             console.log(error)
-            this.errorMsg = `收藏失敗...(|||ﾟдﾟ)`
+            this.errorMsg = `${this.$t('message.favourite.addFailed')}: Server error...(|||ﾟдﾟ)`
         })
       }
       try{this.$ga.event('DearSakura', { method: '訊息收藏' })}catch (error) {}
@@ -232,7 +238,7 @@ export default {
       }))
       .then((response) => {
         if(response.data.message !== "success"){
-          alert(`can't comment! \n\n${response.data.message}`)
+          alert(`${this.$t('message.comment.submitFailed')}! \n\n${response.data.message}`)
         }else{
           this.message.comment_count += 1
           this.message.comments.push(response.data.result)
@@ -243,7 +249,7 @@ export default {
           var err_code = error.response.status
           switch (err_code) {
             case 500:
-              alert("server error, can't comment!")
+              alert(`${this.$t('message.comment.submitFailed')}: Server error`)
               break;
             default:
               alert(error.response.data.message)
@@ -257,7 +263,7 @@ export default {
       this.$axios.delete(`https://dearsakura.deachsword.com/api/comments.php`, { data: { comment_id: a } })
       .then((response) => {
         if(response.data.message !== "success"){
-          alert(`can't delete comment! \n\n${response.data.message}`)
+          alert(`${this.$t('message.comment.deleteFailed')}! \n\n${response.data.message}`)
         }else{
           this.message.comment_count -= 1
           this.message.comments.forEach(function(item, index, object) {
@@ -272,7 +278,7 @@ export default {
           var err_code = error.response.status
           switch (err_code) {
             case 500:
-              alert("server error, can't delete comment!")
+              alert(`${this.$t('message.comment.deleteFailed')}: Server error`)
               break;
             default:
               alert(error.response.data.message)
@@ -284,8 +290,8 @@ export default {
       if(mid in this.users) return this.users[mid];
       console.log(`[getUserData] user not found: ${mid}`)
       return {
-        'displayName': '未知用戶',
-        'pictureUrl': null
+        'displayName': this.$t('profile.unknownerName'),
+        'pictureUrl': 'https://www.deachsword.com/web/img/nologinuser.jpg'
       }
     },
     matchHeight() {

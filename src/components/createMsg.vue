@@ -30,18 +30,17 @@
       ></b-form-textarea>
     </transition>
     <transition mode="in-out" v-if="message">
-      <b-form-tags input-id="tags" v-model="tags" class="mb-2" 
-      placeholder="新增Tags" separator=" ">
+      <b-form-tags input-id="tags" v-model="tags" class="mb-2" separator=" ">
         <template v-slot="{ tags,
        inputAttrs, inputHandlers, disabled, addTag, removeTag }">
           <b-input-group aria-controls="my-custom-tags-list">
           <input
             v-bind="inputAttrs"
             v-on="inputHandlers"
-            placeholder="New tag - Press enter to add"
+            :placeholder="$t('create.inputTip.tag.customTagInput')"
             class="form-control">
           <b-input-group-append>
-            <b-button @click="addTag()" variant="primary">Add</b-button>
+            <b-button @click="addTag()" variant="primary">{{$t('create.inputTip.tag.addBtn')}}</b-button>
           </b-input-group-append>
         </b-input-group>
         <ul
@@ -51,9 +50,6 @@
           aria-atomic="false"
           aria-relevant="additions removals"
         >
-          <!-- Always use the tag value as the :key, not the index! -->
-          <!-- Otherwise screen readers will not read the tag
-               additions and removals correctly -->
           <b-card
             v-for="tag in tags"
             :key="tag"
@@ -68,17 +64,17 @@
               variant="link"
               size="sm"
               :aria-controls="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
-            >remove</b-button>
+            >{{$t('create.inputTip.tag.removeBtn')}}</b-button>
           </b-card>
         </ul>
         <b-dropdown size="sm" variant="outline-secondary" block menu-class="w-100">
             <template v-slot:button-content>
-              <b-icon icon="tag-fill"></b-icon>建議標籤
+              <b-icon icon="tag-fill"></b-icon>{{$t('create.inputTip.tag.recommend')}}
             </template>
             <b-dropdown-form @submit.stop.prevent="() => {}">
               <b-form-group
                 label-for="tag-search-input"
-                label="Search tags"
+                :label="$t('create.inputTip.tag.searchTagsLabel')"
                 label-cols-md="auto"
                 class="mb-0"
                 label-size="sm"
@@ -102,7 +98,7 @@
               {{ option }}
             </b-dropdown-item-button>
             <b-dropdown-text v-if="availableOptions.length === 0">
-              There are no tags available to select
+              {{$t('create.inputTip.tag.searchTagsNoAvailableTags')}}
             </b-dropdown-text>
           </b-dropdown>            
           </template>
@@ -156,7 +152,7 @@ export default {
     },
     searchDesc() {
       if (this.criteria && this.availableOptions.length === 0) {
-        return 'There are no tags matching your search criteria'
+        return this.$t('create.inputTip.tag.searchTagsNotFound')
       }
       return ''
     }
@@ -165,6 +161,7 @@ export default {
     CM :{
       handler: function (msg) {
         this.errorMsg = null
+        if(this.token == null) return
         if(this.$data._from && this.$data._from.trim().length == 0){
           this.errorMsg = '不得為空'
         }else if(this.$data.to && this.$data.to.trim().length == 0){
@@ -174,7 +171,7 @@ export default {
               this.canSub = true
               return
           }else{
-            this.errorMsg = '訊息至少10個字'
+            this.errorMsg = this.$t('create.inputTip.msgTextNotEnough')
           }
         }
         this.canSub = false
@@ -185,7 +182,7 @@ export default {
     ...mapState(['lang']),
     createMessage() {
       if(!this.canSub) return this.errorMsg = '不允許'
-      this.$ga.event('DearSakura', { method: '創建訊息' })
+      try{this.$ga.event('DearSakura', { method: '創建訊息' })}catch{}
 
       this.$axios.post('/api/init.php', Qs.stringify({
           'act': 'DearSakura',
@@ -204,8 +201,8 @@ export default {
             this.$router.push(`/message/${this.to}`)
           }
         })
-        .catch(function (error) {
-          this.errorMsg = '內部錯誤, 請聯絡管理員'
+        .catch((error) => {
+          this.errorMsg = 'Server error, 請聯絡管理員'
         });
     },
     onOptionClick({ option, addTag }) {

@@ -9,6 +9,15 @@ create:
     _from: 私は...（自分のニックネーム）
     message: 私の考え...
     to: 通信できる...（彼女のニックネーム）
+    tag:
+      recommend: おすすめのタグ
+      addBtn: 追加
+      removeBtn: 削除する
+      customTagInput: 新しいタグ - Enterキーを押して追加します
+      searchTagsLabel: タグを検索
+      searchTagsNotFound: 検索条件に一致するタグはありません
+      searchTagsNoAvailableTags: 選択できるタグはありません
+    msgTextNotEnough: メッセージの内容は10文字を超える必要があります
   p1: ああ、たぶんある日...
   submit: 送る
   title: メッセージを作成
@@ -31,4 +40,31 @@ home:
 tran:
   local: 日本語
 message:
-  rating: 評価
+  favourite:
+    add: お気に入り
+    remove: お気に入りを削除
+    count: お気に入りの数
+    addFailed: お気に入りの追加に失敗しました
+    removeFailed: お気に入りの削除に失敗しました
+  embed:
+    embedBtn: Embed
+    title: Embed URI
+  author: 作成者
+  message: メッセージ
+  rating:
+    ratingBtn: 評価
+    title: 評価を送信する
+    success: 完了!
+    failed: 評価に失敗しました
+  comment:
+    commentBtn: コメント
+    title: コメント
+    noComment: コメントはありません
+    delete: 削除
+    commentTip: ここにコメントを入力してください
+    submit: コメントを送信
+    submitFailed: コメントの送信に失敗しました
+    deleteFailed: コメントの削除に失敗しました
+  gotoOtherMessageBtn: 関連記事を見る
+profile:
+  unknownerName: 不明なユーザー

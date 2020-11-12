@@ -9,6 +9,15 @@ create:
     _from: 나 ... (자체 별명)
     message: 내 생각...
     to: 의사 소통 가능 ... (그녀의 닉네임)
+    tag:
+      recommend: 태그 추천
+      addBtn: 더하다
+      removeBtn: 풀다
+      customTagInput: '새 태그, 추가하려면 Enter 키를 누르세요.'
+      searchTagsLabel: 태그 검색
+      searchTagsNotFound: 검색 기준과 일치하는 태그가 없습니다.
+      searchTagsNoAvailableTags: 선택할 수있는 태그가 없습니다.
+    msgTextNotEnough: 메시지 내용은 10 자 이상이어야합니다.
   p1: '아, 언젠가는 ...'
   submit: 보내다
   title: 메시지 작성
@@ -31,4 +40,31 @@ home:
 tran:
   local: 한국어
 message:
-  rating: 평점
+  favourite:
+    add: 특히 잘하는
+    remove: 즐겨 찾기 제거
+    count: 좋아하는 카운트
+    addFailed: 즐겨 찾기 추가 실패
+    removeFailed: 즐겨 찾기 제거 실패
+  embed:
+    embedBtn: Embed
+    title: Embed URI
+  author: 저자
+  message: 메시지
+  rating:
+    ratingBtn: 평점
+    title: 평가 제출
+    success: 평가 성공
+    failed: 평가 실패
+  comment:
+    commentBtn: 댓글
+    title: 댓글
+    noComment: 아직 코멘트가 없습니다
+    delete: 지우다
+    commentTip: 여기에 의견을 입력하세요.
+    submit: 의견 제출
+    submitFailed: 댓글 제출 실패
+    deleteFailed: 댓글 삭제 실패
+  gotoOtherMessageBtn: 관련 기사보기
+profile:
+  unknownerName: 알 수없는 사용자
