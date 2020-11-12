@@ -16,7 +16,7 @@
             <b-navbar-nav class="ml-auto">
 
               <b-nav-item-dropdown :text="currentLang" right>
-                <b-dropdown-item  v-for="[lang, name] in availableLang" :key="lang" @click="updateLang(lang, $event)">
+                <b-dropdown-item  v-for="[lang, name] in availableLang" :key="lang" @click="updateLang(lang, $event)" :href="`?lang=${lang}`">
                   {{name}}
                 </b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>

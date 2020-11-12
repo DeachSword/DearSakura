@@ -9,6 +9,15 @@ create:
     _from: 我. . .(自身昵称)
     message: 我的心意...
     to: 能够传达给. . .(她的昵称)
+    tag:
+      recommend: 推荐标签
+      addBtn: 添加
+      removeBtn: 移除
+      customTagInput: 新标签，按Enter键添加
+      searchTagsLabel: 搜寻标签
+      searchTagsNotFound: 没有符合您搜索条件的标签
+      searchTagsNoAvailableTags: 没有标签可供选择
+    msgTextNotEnough: 字数不能小于10
   p1: 啊啊啊、也许有一天...
   submit: 发送
   title: 创建讯息
@@ -31,4 +40,31 @@ home:
 tran:
   local: 简体中文
 message:
-  rating: 评价
+  favourite:
+    add: 收藏
+    remove: 取消收藏
+    count: 收藏数
+    addFailed: 收藏失败
+    removeFailed: 取消收藏失败
+  embed:
+    embedBtn: 嵌入
+    title: 嵌入網址
+  author: 作者
+  message: 讯息
+  rating:
+    ratingBtn: 评价
+    title: 评分
+    success: 评分成功
+    failed: 评分失败
+  comment:
+    commentBtn: 则留言
+    title: 留言
+    noComment: 没有留言
+    delete: 刪除
+    commentTip: 在此输入留言
+    submit: 发表
+    submitFailed: 提交评论失败
+    deleteFailed: 删除评论失败
+  gotoOtherMessageBtn: 查看贴文串
+profile:
+  unknownerName: 不明用戶
