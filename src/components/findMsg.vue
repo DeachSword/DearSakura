@@ -16,20 +16,16 @@
       <message v-for="(d, i) in messages" :key="i" :message="d"></message>
     </b-card-group>
     <b-jumbotron v-if="messages.length == 0 && searched && !loading && search"  bg-variant="dark" border-variant="white" text-variant="white">
-    <template v-slot:header>噓...你只需要發送!</template>
+    <template v-slot:header>{{$t('message.finding.noMessageTitle')}}</template>
 
     <template v-slot:lead>
-      哇喔!<br />
-      這裡是一片新天地! 還沒有人傳遞訊息給 {{search}}<br />
-      趕快發送訊息給 {{search}}, 總有一天它肯定能夠看到你的訊息
+      <p v-html="$t('message.finding.noMessageBody', {'_from': search})"></p>
     </template>
 
     <hr class="my-4">
 
     <p>
-      即使是給過去/未來的自己, 肯定、一定能夠傳達到的! <br />
-      不管當時在做些甚麼, 儘管只是種自我滿足, 抑或想彌補些甚麼<br />
-      那些都會在這那些都會在這<span class="blockquote-footer text-right text-white">留下紀錄</span>
+      <span v-html="$t('message.finding.noMessageEx')"></span><span class="blockquote-footer text-right text-white">{{$t('message.finding.noMessageExFooter')}}</span>
     </p>
 
     <b-button-group>
@@ -114,11 +110,11 @@ export default {
           this.loading = false;
           return
         }
-        this.infoMsg = `準備搜尋: ${k}`
+        this.infoMsg = `${this.$t('message.finding.ready')}: ${k}`
         k = k.toLocaleLowerCase()
         this.loading = true;
         clearTimeout(this.timer);
-        this.timer = setTimeout(() => { this.findMessage(k)}, 5000)
+        this.timer = setTimeout(() => { this.findMessage(k)}, 1000)
       }
     }
   },
@@ -128,14 +124,14 @@ export default {
     findMessage(name) {
       const _name = this.search != null ? this.search.toLocaleLowerCase() : null
       if(name !== _name || _name === null) return
-      this.infoMsg = `正在搜尋: ${name}`;
+      this.infoMsg = `${this.$t('message.finding.searching')}: ${name}`;
       this.$axios.get('https://dearsakura.deachsword.com/api/getmessage/' + encodeURIComponent(name))
         .then((response) => {
           if(response.data.message !== "success"){
             this.errorMsg = response.data.message
           }else{
             this.errorMsg = null
-            this.infoMsg = `搜尋成功!`
+            this.infoMsg = this.$t('message.finding.success')
             this.setUsers(response.data.result.users)
             this.messages = response.data.result.messages
           }
@@ -148,7 +144,7 @@ export default {
         .finally(() => {
           //mobile is not work...
         });
-        try{this.$ga.event('DearSakura', { method: '搜尋訊息' })}catch (error) {
+        try{this.$ga.event('DearSakura', 'searchMessage')}catch (error) {
           //
         }
     },
@@ -166,8 +162,8 @@ export default {
   metaInfo() {
     if (this.search) return {
       meta: [
-        { vmid: 'og:description', name: 'og:description', content: `Are you ${decodeURIComponent(this.search)}? Hope you can receive these messages` } , 
-        { vmid: 'description', name: 'description', content: `Are you ${decodeURIComponent(this.search)}? Hope you can receive these messages` }  
+        { vmid: 'og:description', name: 'og:description', content: this.$t('message.finding.description', {'_from': decodeURIComponent(this.search)}) } , 
+        { vmid: 'description', name: 'description', content: this.$t('message.finding.description', {'_from': decodeURIComponent(this.search)}) }  
       ]
     }
   }

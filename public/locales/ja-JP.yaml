@@ -1,70 +1,87 @@
 about:
-  p1: あなたへの最後の手紙...
-  p2: 申し訳ありません...あなたの出口に直面するには遅すぎるので...私はいつか願っています
-  p3: やっと...
-  p4: 幸せになります〜！
-  title: 親愛なるさくら
+  p1: 'The Last, LETTER from me....'
+  p2: ごめんなさい、あなたに向き合えなくて。
+  p3: だから、せめてでも 私は祈ります。
+  p4: 幸せでありますように。
+  title: Dear Sakura
+  description: DearSakuraについて...以前は素晴らしい話でしたが、今では一種の自己満足です
 create:
   inputTip:
     _from: 私は...（自分のニックネーム）
-    message: 私の考え...
-    to: 通信できる...（彼女のニックネーム）
+    to: あなたに...（相手のニックネーム）
+    message: 伝えたいことが...(内容)
     tag:
-      recommend: おすすめのタグ
+      recommend: おすすめタグ
       addBtn: 追加
-      removeBtn: 削除する
+      removeBtn: 削除
       customTagInput: 新しいタグ - Enterキーを押して追加します
       searchTagsLabel: タグを検索
       searchTagsNotFound: 検索条件に一致するタグはありません
-      searchTagsNoAvailableTags: 選択できるタグはありません
-    msgTextNotEnough: メッセージの内容は10文字を超える必要があります
-  p1: ああ、たぶんある日...
+      searchTagsNoAvailableTags: 選択できるタグがありません
+    msgTextNotEnough: メッセージの内容は10文字以上である必要があります
+  p1: ああ、いつか...
   submit: 送る
-  title: メッセージを作成
-  loginTip: メッセージを投稿するにはログインする必要があります
+  title: メッセージ作成
+  loginTip: メッセージを投稿するにはログインしてください
+  description: 彼女にメッセージを送ってください...多分いつか彼女はこれらのメッセージを受け取るでしょう、それは私にとって一種の救いになるでしょう
 debug: テスト！
 home:
   find:
     inputTip: 名前を入力
-    p1: 彼女が愛する人に贈ってください...まだそこにいる場合は、名前を入力してください！
+    p1: 彼女を愛する人に贈ってください... まだそこにいるなら、名前を入力してください！
     result: 結果
   footer:
     source: ソースコード
   login:
     tipLogin: クリックしてログイン
   text:
-    p1: 吶、還記得那時候嗎？
-    p2: 我有好多好多……想對妳說的話
-    p3: 啊～啊、希望有天妳能夠收到這些訊息—
-    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
+    p1: ねぇ、あのときのこと覚えてる?
+    p2: たくさんあります、あなたに伝えたいことが。
+    p3: ああ、いつかこの言葉が届けばいいのに。
+    p4: さあ、相手の名前をいれてください! その人もあなたに届けたいことがあるかも!
+  description: 親愛なるさくら、あなたは今どこにいますか？ 何してるの？ あなたは幸せでしたか？
 tran:
   local: 日本語
 message:
   favourite:
-    add: お気に入り
-    remove: お気に入りを削除
-    count: お気に入りの数
+    add: お気に入りに追加
+    remove: お気に入りから削除
+    count: お気に入り数
     addFailed: お気に入りの追加に失敗しました
     removeFailed: お気に入りの削除に失敗しました
   embed:
-    embedBtn: Embed
-    title: Embed URI
+    embedBtn: 埋め込み
+    title: 埋め込みリンク
   author: 作成者
   message: メッセージ
   rating:
     ratingBtn: 評価
-    title: 評価を送信する
-    success: 完了!
+    title: 評価送信
+    success: 評価完了!
     failed: 評価に失敗しました
   comment:
     commentBtn: コメント
     title: コメント
-    noComment: コメントはありません
+    noComment: まだコメントはありません
     delete: 削除
-    commentTip: ここにコメントを入力してください
-    submit: コメントを送信
+    commentTip: コメントを入力
+    submit: 送信
     submitFailed: コメントの送信に失敗しました
     deleteFailed: コメントの削除に失敗しました
-  gotoOtherMessageBtn: 関連記事を見る
+  gotoOtherMessageBtn: 関連メッセージへ
+  finding:
+    noMessageBody: >-
+      うわー！<br />これが真新しい未来です！ 誰も{_from}にメッセージを送信していないからです<br
+      />{_from}にメッセージを送信すると、彼はいつかあなたのメッセージを見ることができるようになります
+    noMessageTitle: ここにはまだ何もありません
+    noMessageEx: >-
+      過去・未来の自分に送っても確実に伝えられる！ <br
+      />その時何をしていても、それは一種の自己満足であり、あるいはいくつかの間違いや後悔を埋め合わせようとしているとしても<br
+      />それらのメッセージはここにあります
+    noMessageExFooter: 記録を残す
+    ready: 後で検索
+    searching: 検索
+    success: 検索に成功しました！
+    description: 'あなたは{_from}ですか？いつかこれらのメッセージを受信できることを願っています...'
 profile:
   unknownerName: 不明なユーザー

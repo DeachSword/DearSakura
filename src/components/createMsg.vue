@@ -182,7 +182,7 @@ export default {
     ...mapState(['lang']),
     createMessage() {
       if(!this.canSub) return this.errorMsg = '不允許'
-      try{this.$ga.event('DearSakura', { method: '創建訊息' })}catch{}
+      try{this.$ga.event('DearSakura', 'createMessage')}catch{}
 
       this.$axios.post('/api/init.php', Qs.stringify({
           'act': 'DearSakura',
