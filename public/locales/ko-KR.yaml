@@ -4,6 +4,7 @@ about:
   p3: 마침내 ...
   p4: 행복하세요 ~!
   title: 사랑하는 사쿠라
+  description: 디어 사쿠라에 대해서 ... 좋은 이야기 였지만 지금은 일종의 자기 만족
 create:
   inputTip:
     _from: 나 ... (자체 별명)
@@ -22,6 +23,7 @@ create:
   submit: 보내다
   title: 메시지 작성
   loginTip: 메시지를 게시하려면 로그인해야합니다.
+  description: 그녀에게 메시지를 보내 ... 언젠가는 그녀가이 메시지를 받게 될 것입니다. 그것은 저에게 일종의 구원이 될 것입니다.
 debug: 테스트!
 home:
   find:
@@ -33,10 +35,11 @@ home:
   login:
     tipLogin: 로그인하려면 클릭하세요
   text:
-    p1: 吶、還記得那時候嗎？
-    p2: 我有好多好多……想對妳說的話
-    p3: 啊～啊、希望有天妳能夠收到這些訊息—
-    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
+    p1: 이봐 ... 그 때 기억 나니?
+    p2: 나 너한테 하고 싶은 말이 많아요
+    p3: 가까운 시일 내에 답장을 기다리겠습니다
+    p4: 이제 닉네임을 입력하세요! 누군가 당신에게 할 말이있을 것입니다!
+  description: '친애하는 사쿠라, 지금 어디 계세요? 뭐하는거야? 행복 했어?'
 tran:
   local: 한국어
 message:
@@ -66,5 +69,18 @@ message:
     submitFailed: 댓글 제출 실패
     deleteFailed: 댓글 삭제 실패
   gotoOtherMessageBtn: 관련 기사보기
+  finding:
+    noMessageBody: >-
+      와!<br />여기에 새로운 미래가 있습니다! 아무도 {_from}에 메시지를 보내지 않았기 때문에<br />{_from}에게
+      메시지를 보내면 언젠가 귀하의 메시지를 볼 수 있습니다.
+    noMessageTitle: 아직 아무것도 없습니다
+    noMessageEx: >-
+      과거 / 미래의 자신에게 보내도 확실히 전할 수있을 것입니다! <br />그 당시 무엇을하든 자기 만족이나 실수와 후회를 만회하려해도
+      <br />그 메시지는 여기에있을 것입니다
+    noMessageExFooter: 기록을 남기다
+    ready: 검색 준비
+    searching: 수색
+    success: 검색 성공!
+    description: '{_from} 님이십니까? 언젠가이 메시지를 받으시 길 바랍니다 ...'
 profile:
   unknownerName: 알 수없는 사용자

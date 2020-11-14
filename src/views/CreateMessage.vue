@@ -87,11 +87,13 @@ export default {
       this.$ga.screenview('DearSakura/Create')
     }
   },
-  metaInfo: {
-    meta: [
-      { vmid: 'og:description', property: 'og:description', content: 'Send her a message...just hope she can receive it, it will be a kind of salvation for me' } , 
-      { vmid: 'description', name: 'description', content: 'Send her a message...just hope she can receive it, it will be a kind of salvation for me' }  
-    ]
+  metaInfo() {
+    return {
+      meta: [
+        { vmid: 'og:description', property: 'og:description', content: this.$t('create.description') } , 
+        { vmid: 'description', name: 'description', content: this.$t('create.description') }  
+      ]
+    }
   }
 }
 </script>

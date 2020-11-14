@@ -1,9 +1,10 @@
 about:
-  p1: The Last, LETTER from me....
+  p1: 'The Last, LETTER from me....'
   p2: ごめんなさい、あなたに向き合えなくて。
   p3: だから、せめてでも 私は祈ります。
   p4: 幸せでありますように。
   title: Dear Sakura
+  description: DearSakuraについて...以前は素晴らしい話でしたが、今では一種の自己満足です
 create:
   inputTip:
     _from: 私は...（自分のニックネーム）
@@ -22,6 +23,7 @@ create:
   submit: 送る
   title: メッセージ作成
   loginTip: メッセージを投稿するにはログインしてください
+  description: 彼女にメッセージを送ってください...多分いつか彼女はこれらのメッセージを受け取るでしょう、それは私にとって一種の救いになるでしょう
 debug: テスト！
 home:
   find:
@@ -37,6 +39,7 @@ home:
     p2: たくさんあります、あなたに伝えたいことが。
     p3: ああ、いつかこの言葉が届けばいいのに。
     p4: さあ、相手の名前をいれてください! その人もあなたに届けたいことがあるかも!
+  description: 親愛なるさくら、あなたは今どこにいますか？ 何してるの？ あなたは幸せでしたか？
 tran:
   local: 日本語
 message:
@@ -66,5 +69,19 @@ message:
     submitFailed: コメントの送信に失敗しました
     deleteFailed: コメントの削除に失敗しました
   gotoOtherMessageBtn: 関連メッセージへ
+  finding:
+    noMessageBody: >-
+      うわー！<br />これが真新しい未来です！ 誰も{_from}にメッセージを送信していないからです<br
+      />{_from}にメッセージを送信すると、彼はいつかあなたのメッセージを見ることができるようになります
+    noMessageTitle: ここにはまだ何もありません
+    noMessageEx: >-
+      過去・未来の自分に送っても確実に伝えられる！ <br
+      />その時何をしていても、それは一種の自己満足であり、あるいはいくつかの間違いや後悔を埋め合わせようとしているとしても<br
+      />それらのメッセージはここにあります
+    noMessageExFooter: 記録を残す
+    ready: 後で検索
+    searching: 検索
+    success: 検索に成功しました！
+    description: 'あなたは{_from}ですか？いつかこれらのメッセージを受信できることを願っています...'
 profile:
   unknownerName: 不明なユーザー

@@ -4,6 +4,7 @@ about:
   p3: 最后...
   p4: 要幸福喔~!
   title: 亲爱的樱
+  description: 这是关于DearSakura ...这曾经是一个很棒的故事，但是现在......这只不过是一种自我满足罢了
 create:
   inputTip:
     _from: 我. . .(自身昵称)
@@ -22,6 +23,7 @@ create:
   submit: 发送
   title: 创建讯息
   loginTip: 您需要 登入 才能發布訊息
+  description: 发送讯息给她......也许总有一天她能够收到这些讯息，这对我来说将会是一种救赎
 debug: 测试!
 home:
   find:
@@ -36,7 +38,8 @@ home:
     p1: 吶、還記得那時候嗎？
     p2: 我有好多好多……想對妳說的話
     p3: 啊～啊、希望有天妳能夠收到這些訊息—
-    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
+    p4: 現在，輸入妳那令人熟悉的名子吧！也許某個人也有話想對你說！
+  description: 亲爱的樱，妳现在在哪里？ 正在做些什么？ 过得开心吗？
 tran:
   local: 简体中文
 message:
@@ -66,5 +69,16 @@ message:
     submitFailed: 提交评论失败
     deleteFailed: 删除评论失败
   gotoOtherMessageBtn: 查看贴文串
+  finding:
+    noMessageBody: '哇喔!<br />這裡是一片新天地! 還沒有人傳遞訊息給 {_from}<br />趕快發送訊息給 {_from}, 總有一天它肯定能夠看到你的訊息'
+    noMessageTitle: '這裡甚麼都沒有, 但也只有現在!'
+    noMessageEx: >-
+      即使是給過去/未來的自己, 肯定、一定能夠傳達到的! <br />不管當時在做些甚麼, 儘管只是種自我滿足, 抑或想彌補些甚麼<br
+      />那些都會在這
+    noMessageExFooter: 留下紀錄
+    ready: 準備搜尋
+    searching: 正在搜索
+    success: 搜尋成功!
+    description: '你是{_from}嗎? 希望總有一天妳能夠收到這些訊息...'
 profile:
   unknownerName: 不明用戶

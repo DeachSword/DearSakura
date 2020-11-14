@@ -4,6 +4,9 @@ about:
   p3: At last...
   p4: Be happy~!
   title: Dear Sakura
+  description: >-
+    About DearSakura...it used to be a great story, but now, it’s just a kind of
+    self-satisfaction
 create:
   inputTip:
     _from: I... (own nickname)
@@ -22,6 +25,9 @@ create:
   submit: Send
   title: Create Message
   loginTip: You need to log in to post a message
+  description: >-
+    Send messages to her... Maybe one day she will receive these messages, it
+    will be a kind of salvation for me
 debug: test!
 home:
   find:
@@ -33,10 +39,11 @@ home:
   login:
     tipLogin: Click to login
   text:
-    p1: 吶、還記得那時候嗎？
-    p2: 我有好多好多……想對妳說的話
-    p3: 啊～啊、希望有天妳能夠收到這些訊息—
-    p4: 現在，輸入妳吶令人熟悉的名子吧！也許某個人也有話想對你說！
+    p1: Hey...do you remember that time?
+    p2: I still have many things to tell you……
+    p3: I am looking forward to receiving your reply in a near future
+    p4: 'Now, enter your nickname! Maybe someone has something to tell you!'
+  description: 'Dear Sakura, Where are you now? What are you doing? Have you been happy?'
 tran:
   local: English
 message:
@@ -66,5 +73,21 @@ message:
     submitFailed: Submit comment failed
     deleteFailed: Delete comment failed
   gotoOtherMessageBtn: View related posts
+  finding:
+    noMessageBody: >-
+      Wow!<br />Here will be a brand new future! Because no one has sent a
+      message to {_from}<br />Send a message to {_from}, he will be able to see
+      your message someday
+    noMessageTitle: There is nothing here yet
+    noMessageEx: >-
+      Even if it is sent to the past/future self, this will definitely be able
+      to be conveyed! <br />No matter what you are doing at the time, even
+      though it is just a kind of self-satisfaction, or trying to make up for
+      some mistakes and regrets<br />Those messages will be here
+    noMessageExFooter: leave a record
+    ready: About to search
+    searching: Searching
+    success: Search successful!
+    description: 'Are you {_from}? Hope you can receive these messages one day...'
 profile:
   unknownerName: Unknown User

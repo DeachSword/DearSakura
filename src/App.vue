@@ -100,7 +100,7 @@ export default {
   created() {
     this.updateTitle([this, 'DearSakura'])
     this.$i18n.locale = this.lang
-    this.description = 'Dear Sakura, Where are you now? What are you doing? Have you been happy?'
+    this.description = this.$t('home.description')
     this.checkSession()
   },
   methods: {

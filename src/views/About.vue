@@ -49,11 +49,13 @@ export default {
       })
     }
   },
-  metaInfo: {
-    meta: [
-      { vmid: 'og:description', property: 'og:description', content: 'About DearSakura...it used to be a great adventure, but now, it’s just a kind of self-satisfaction' } , 
-      { vmid: 'description', name: 'description', content: 'About DearSakura...it used to be a great adventure, but now, it’s just a kind of self-satisfaction' }  
-    ]
+  metaInfo() {
+    return {
+      meta: [
+        { vmid: 'og:description', property: 'og:description', content: this.$t('about.description') } , 
+        { vmid: 'description', name: 'description', content: this.$t('about.description') }  
+      ]
+    }
   }
 }
 </script>

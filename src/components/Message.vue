@@ -103,11 +103,27 @@
                   <b-card bg-variant="white" text-variant="dark" v-for="cmt in availableComments">
                     <b-avatar :src="getUserData(cmt.userId).pictureUrl"></b-avatar><b class="ml-2">{{getUserData(cmt.userId).displayName}}</b>
                     <b-card-text class="ml-5">
-                      {{cmt.message}}
+                      <pre>{{cmt.message}}</pre>
                       <div class="text-secondary">{{cmt.createdTime}}
                         <b-button-group size="sm">
                           <b-button v-if="isLogin && profile.profile.id == cmt.userId && cmt.deletedTime == null" variant="outline-dark" @click="deleteComment(cmt.id)">{{$t('message.comment.delete')}}</b-button>
                         </b-button-group>
+                      </div>
+                      <div v-if="cmt.replies_count > 0">
+                        <b-button v-b-toggle="'collapse-msg-comments_' + rndkey + message.id" variant="secondary" size="sm">{{cmt.replies_count}} replies</b-button>
+                        <b-collapse :id="'collapse-msg-comments_' + rndkey + message.id">
+                          <b-card bg-variant="white" text-variant="dark" v-for="scmt in getSubComments(cmt.id)" style="border: none">
+                            <b-avatar :src="getUserData(scmt.userId).pictureUrl"></b-avatar><b class="ml-2">{{getUserData(scmt.userId).displayName}}</b>
+                            <b-card-text class="ml-5">
+                              <pre>{{scmt.message}}</pre>
+                              <div class="text-secondary">{{scmt.createdTime}}
+                                <b-button-group size="sm">
+                                  <b-button v-if="isLogin && profile.profile.id == scmt.userId && scmt.deletedTime == null" variant="outline-dark" @click="deleteComment(scmt.id)">{{$t('message.comment.delete')}}</b-button>
+                                </b-button-group>
+                              </div>
+                            </b-card-text>
+                          </b-card>
+                        </b-collapse>
                       </div>
                     </b-card-text>
                   </b-card>
@@ -155,13 +171,14 @@ export default {
             message: ''
         },
         _height: -1,
-        rndkey: this.rndStr(7)
+        rndkey: this.rndStr(7),
+        viewDeletedCmt: false
     }
   },
   computed: {
     ...mapState(['profile', 'isLogin', 'isApi', 'users']),
     availableComments() {
-      return this.message.comments.filter(comment => comment.deletedTime == null)
+      return this.message.comments.filter(comment => comment.deletedTime == null && comment.parent_id == null)
     }
   },
   methods: {
@@ -188,7 +205,7 @@ export default {
             console.log(error)
             this.errorMsg = `${this.$t('message.rating.failed')}: Server error`
         })
-        try{this.$ga.event('DearSakura', { method: '訊息評分' })}catch (error) {
+        try{this.$ga.event('DearSakura', 'messageRating')}catch (error) {
           //
         }
       }
@@ -227,7 +244,7 @@ export default {
             this.errorMsg = `${this.$t('message.favourite.addFailed')}: Server error...(|||ﾟдﾟ)`
         })
       }
-      try{this.$ga.event('DearSakura', { method: '訊息收藏' })}catch (error) {}
+      try{this.$ga.event('DearSakura', 'messageFavourite')}catch (error) {}
     },
     submitComment(a1, a2, a3) {
       this.commentData.message = '';
@@ -242,6 +259,7 @@ export default {
         }else{
           this.message.comment_count += 1
           this.message.comments.push(response.data.result)
+          try{this.$ga.event('DearSakura', 'messageComment')}catch (error) {}
         }
       })
       .catch((error) => {
@@ -316,7 +334,10 @@ export default {
       }
 
 			return text
-		}
+		},
+    getSubComments(id) {
+      return this.message.comments.filter(comment => comment.parent_id == id)
+    }
   },
   mounted () {
     this.matchHeight()
