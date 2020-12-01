@@ -1,5 +1,5 @@
 <template>
-    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="margin: 0.625rem;" ref="msgBox">
+    <b-card bg-variant="dark" border-variant="white" text-variant="white" style="margin: 0.625rem;" ref="msgBox" class="messages__item">
         <template v-slot:header>
           <div class="ds-layout" style="flex-direction: row;">
             <code class="ds-layout__section--full">To {{message.to}}</code>
@@ -43,18 +43,19 @@
             </b-modal>
           </div>
         </template>
-        <b-card-text>
-            <pre style="color: unset" text-variant="white" 
-            v-b-tooltip.hover.bottom :title="$t('message.message')">{{message.message}}</pre>
-        </b-card-text>
+        <div class="ds-layout">
+          <b-card-text class="ds-layout__section--full">
+              <pre style="color: unset" text-variant="white" 
+              v-b-tooltip.hover.bottom :title="$t('message.message')">{{message.message}}</pre>
+          </b-card-text>
 
-        <footer class="blockquote-footer text-right text-white"><cite 
-            v-b-tooltip.hover.bottom :title="$t('message.author')">{{message._from}}</cite> sub on {{message.createdTime}}
-        </footer>
-        
+          <footer class="blockquote-footer text-right text-white"><cite 
+              v-b-tooltip.hover.bottom :title="$t('message.author')">{{message._from}}</cite> sub on {{message.createdTime}}
+          </footer>
+        </div>
         <template v-slot:footer>
             <div class="ds-layout" style="flex-direction: row;">
-              <div  class="ds-layout__section--full">
+              <div class="ds-layout__section--full">
                 <span class="message-footer-header__value" :title="$t('message.favourite.count')" v-b-tooltip.hover.top>
                     <span class="message-footer-header__value-icon">
                         <b-icon icon="heart-fill"></b-icon>

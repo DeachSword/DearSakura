@@ -46,6 +46,10 @@ export const createStore = ({ lang, changeTitle , document}) => {
       },
       setProfile(state, data) {
         state.profile = data
+        var p = data.profile
+        p['userId'] = p['id']
+        delete p['id']
+        state.users[p.userId] = p
       },
       setLoginState(state, data) {
         state.isLogin = data
