@@ -11,18 +11,20 @@
             $db = $account->getDB();
             $ck1 = $db->query("SELECT * FROM dearsakura_favourites GROUP BY msgId ORDER BY COUNT(msgId) DESC LIMIT 10"); //fav top 10
             $ck2 = $db->query("SELECT *, avg(rating) FROM dearsakura_rating group by msgId ORDER BY avg(rating) DESC LIMIT 10"); //rating top 10
+            $ck3 = $db->query("SELECT * FROM dearsakura_comments ORDER BY id DESC LIMIT 2"); //recent comment
             $data1 = $ck1->fetch_all(MYSQLI_ASSOC);
             $data2 = $ck2->fetch_all(MYSQLI_ASSOC);
+            $data3 = $ck3->fetch_all(MYSQLI_ASSOC);
 
             $msgs = [];
             $_msgids = [];
 
-            foreach (array_merge($data1, $data2) as $v) {
-                $msgId = $v['msgId'];
+            foreach (array_merge($data1, $data2, $data3) as $v) {
+                $msgId = isset($v['msgId']) ? $v['msgId'] : $v['commentable_id'];
                 if(!in_array($msgId, $_msgids)) $_msgids[] = $msgId;
             }
-            $ck3 = $db->query("select `id`, `to`, `_from`, `message`, `createdTime` from `dearsakura` where `id` in (".join(", ",$_msgids).")");
-            $_msgs = $ck3->fetch_all(MYSQLI_ASSOC);
+            $ck4 = $db->query("select `id`, `to`, `_from`, `message`, `createdTime` from `dearsakura` where `id` in (".join(", ",$_msgids).")");
+            $_msgs = $ck4->fetch_all(MYSQLI_ASSOC);
             foreach ($_msgs as $msg) {
                 $msgs[$msg['id']] = $msg;
             }
@@ -32,7 +34,6 @@
             $echoData['result'] = [
                 'favorites' => null,
                 'rated' => null,
-                '' => []
             ];
 
             $userIds = [];
@@ -41,9 +42,9 @@
                 $_data['isRated'] = false;
                 $_rating = 10; //base
                 $_rating_count = 1;
-                $ck2 = $db->query("select * from `dearsakura_rating` where `msgId`='{$_data['id']}'");
-                if($ck2->num_rows > 0){
-                    $_rating_data = $ck2->fetch_all(MYSQLI_ASSOC);
+                $ck5 = $db->query("select * from `dearsakura_rating` where `msgId`='{$_data['id']}'");
+                if($ck5->num_rows > 0){
+                    $_rating_data = $ck5->fetch_all(MYSQLI_ASSOC);
                     foreach($_rating_data as $_d){
                         $_rating_count++;
                         $_rating += $_d['rating'];
@@ -58,9 +59,9 @@
                 
                 $_data['has_favourited'] = false;
                 $_data['favourite_count'] = 0;
-                $ck3 = $db->query("select * from `dearsakura_favourites` where `msgId`='{$_data['id']}'");
-                if($ck3->num_rows > 0){
-                    $_fav_data = $ck3->fetch_all(MYSQLI_ASSOC);
+                $ck6 = $db->query("select * from `dearsakura_favourites` where `msgId`='{$_data['id']}'");
+                if($ck6->num_rows > 0){
+                    $_fav_data = $ck6->fetch_all(MYSQLI_ASSOC);
                     foreach($_fav_data as $_d){
                         $_data['favourite_count']++;
                         if($_d['accountId'] == $account->accountId){
@@ -71,16 +72,18 @@
 
                 $_data['comments'] = [];
                 $_data['comment_count'] = 0;
-                $ck4 = $db->query("select * from `dearsakura_comments` where `commentable_type`='messageset' and `commentable_id`='{$_data['id']}'");
-                if($ck4->num_rows > 0){
-                    $_cmt_data = $ck4->fetch_all(MYSQLI_ASSOC);
+                $ck7 = $db->query("select * from `dearsakura_comments` where `commentable_type`='messageset' and `commentable_id`='{$_data['id']}'");
+                if($ck7->num_rows > 0){
+                    $_cmt_data = $ck7->fetch_all(MYSQLI_ASSOC);
                     foreach($_cmt_data as $_d){
                         $_data['comment_count']++;
+                        $ck8 = $db->query("select id from `dearsakura_comments` where `parent_id`='{$_d['id']}'");
                         $cmtData = [
                             'id' => $_d['id'],
                             'userId' => $_d['accountId'],
                             'message' => $_d['message'],
-                            'replies_count' => 0,
+                            'replies_count' => $ck8->num_rows,
+                            'parent_id' => $_d['parent_id'],
                             'createdTime' => $_d['createdTime'],
                             'editedTime' => $_d['editedTime'],
                             'deletedTime' => $_d['deletedTime']
@@ -98,6 +101,10 @@
             foreach ($data2 as $v2) {
                 $_d = $msgs[$v2['msgId']];
                 $echoData['result']['rated'][] = $_d;
+            }
+            foreach ($data3 as $v3) {
+                $_d = $msgs[$v3['commentable_id']];
+                $echoData['result']['comments'][] = $_d;
             }
             if(count($userIds) > 0){
                 foreach ($userIds as $mid) {

@@ -45,11 +45,12 @@
                 })
                 .catch((error) => {
                     console.log(error)
+                    this.errMsg = "Server error"
                 })
                 .finally(() => {
                     this.searched = true;
                 });
-                try{this.$ga.event('DearSakura', { method: '搜尋訊息' })}catch (error) {}
+                try{this.$ga.event('DearSakura', 'searchMessageWithAPI')}catch (error) {}
             },
         },
         created() {

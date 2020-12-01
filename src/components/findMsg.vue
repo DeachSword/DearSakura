@@ -12,9 +12,7 @@
     <b-form-text v-if="searched">{{'Result'}}: {{messages.length}}</b-form-text>
     <progress class="progress is-info" max="100" v-if="loading"></progress>
     <hr v-if="messages.length">
-    <b-card-group columns>
-      <message v-for="(d, i) in messages" :key="i" :message="d"></message>
-    </b-card-group>
+    <messageList :messages="messages"></messageList>
     <b-jumbotron v-if="messages.length == 0 && searched && !loading && search"  bg-variant="dark" border-variant="white" text-variant="white">
     <template v-slot:header>{{$t('message.finding.noMessageTitle')}}</template>
 
@@ -41,7 +39,7 @@ import { mapState, mapMutations } from 'vuex'
 import axios from 'axios'
 import Qs from 'qs'
 
-import message from '@/components/Message.vue'
+import messageList from '@/components/MessageList.vue'
 
 export default {
   props: ['to'],
@@ -56,7 +54,7 @@ export default {
       infoMsg: null
     }
   },
-  components: { message },
+  components: { messageList },
   created() {
     if(this.$route.query.to !== undefined){
       this.$router.push({ path: `/message/${this.$route.query.to}` })

@@ -130,8 +130,7 @@ export default {
           this.setProfile(response.data.result)
           this.setLoginState(true)
         })
-        .catch(function (error) {
-        });
+        .catch(function (error) { });
     },
     checkSessionV2() {
       return this.$axios.post('/api/session', null)
@@ -183,6 +182,7 @@ export default {
     transition: opacity .2s ease-in-out,-webkit-filter .2s ease-in-out;
     transition: filter .2s ease-in-out,opacity .2s ease-in-out;
     transition: filter .2s ease-in-out,opacity .2s ease-in-out,-webkit-filter .2s ease-in-out;
+    height: 100%;
   }
   .ds-layout__section {
     display: flex;
@@ -287,6 +287,12 @@ export default {
         width: 100%
     }
   }
+  @media (min-width: 992px){
+    .messages__item {
+        width: calc(50% - 10px);
+    }
+  }
+
   :root {
     --hsl-p:var(--base-hue),100%,50%;--hsl-h1:var(--base-hue),100%,70%;--hsl-h2:var(--base-hue),50%,45%;--hsl-c1:var(--base-hue),40%,100%;--hsl-c2:var(--base-hue),40%,90%;--hsl-l1:var(--base-hue),40%,80%;--hsl-l2:var(--base-hue),40%,75%;--hsl-l3:var(--base-hue),40%,70%;--hsl-l4:var(--base-hue),40%,50%;--hsl-d1:var(--base-hue),20%,35%;--hsl-d2:var(--base-hue),20%,30%;--hsl-d3:var(--base-hue),20%,25%;--hsl-d4:var(--base-hue),20%,20%;--hsl-d5:var(--base-hue),20%,15%;--hsl-d6:var(--base-hue),20%,10%;--hsl-f1:var(--base-hue),10%,60%;--hsl-b1:var(--base-hue),10%,40%;--hsl-b2:var(--base-hue),10%,30%;--hsl-b3:var(--base-hue),10%,25%;--hsl-b4:var(--base-hue),10%,20%;--hsl-b5:var(--base-hue),10%,15%;--hsl-b6:var(--base-hue),10%,10%;--colour-pink-hue:333;--hsl-pink-1:var(--colour-pink-hue),100%,70%;--hsl-pink-2:var(--colour-pink-hue),80%,60%;--hsl-pink-3:var(--colour-pink-hue),60%,50%;--colour-purple-hue:255;--hsl-purple-1:var(--colour-purple-hue),100%,70%;--hsl-purple-2:var(--colour-purple-hue),80%,60%;--hsl-purple-3:var(--colour-purple-hue),60%,50%;--colour-blue-hue:200;--hsl-blue-1:var(--colour-blue-hue),100%,70%;--hsl-blue-2:var(--colour-blue-hue),80%,60%;--hsl-blue-3:var(--colour-blue-hue),60%,50%;--colour-green-hue:125;--hsl-green-1:var(--colour-green-hue),100%,70%;--hsl-green-2:var(--colour-green-hue),80%,60%;--hsl-green-3:var(--colour-green-hue),60%,50%;--colour-lime-hue:90;--hsl-lime-1:var(--colour-lime-hue),100%,70%;--hsl-lime-2:var(--colour-lime-hue),80%,60%;--hsl-lime-3:var(--colour-lime-hue),60%,50%;--colour-orange-hue:45;--hsl-orange-1:var(--colour-orange-hue),100%,70%;--hsl-orange-2:var(--colour-orange-hue),80%,60%;--hsl-orange-3:var(--colour-orange-hue),60%,50%;--colour-red-hue:360;--hsl-red-1:var(--colour-red-hue),100%,70%;--hsl-red-2:var(--colour-red-hue),80%,60%;--hsl-red-3:var(--colour-red-hue),60%,50%;--colour-darkorange-hue:20;--hsl-darkorange-1:var(--colour-darkorange-hue),100%,70%;--hsl-darkorange-2:var(--colour-darkorange-hue),80%,60%;--hsl-darkorange-3:var(--colour-darkorange-hue),60%,50%
     }

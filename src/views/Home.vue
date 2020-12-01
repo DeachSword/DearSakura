@@ -10,25 +10,26 @@
       @keyup.enter="makeFind"
     ></b-form-input>
     <br />
+    <!-- 最近留言 -->
+    <section id="recent-posts-3" class="widget mt-3">
+        <h3>New Comments</h3>
+        <div v-if="comments == null">加載中...ε≡ﾍ( ´∀`)ﾉ</div>
+        <messageList :messages="comments" v-else-if="comments.length"></messageList>
+        <div v-else>Nothing</div>
+    </section>
     <!-- 最受喜歡 -->
     <section id="recent-posts-3" class="widget mt-3">
         <h3>Most Favorites</h3>
-        <b-card-group columns v-if="favorites.length > 0">
-          <message v-for="(d, i) in favorites" :key="'mf_' + i" :message="d"></message>
-        </b-card-group>
-        <div v-else>
-          Nothing...
-        </div>
+        <div v-if="comments == null">加載中...ε≡ﾍ( ´∀`)ﾉ</div>
+        <messageList :messages="favorites" v-else-if="favorites.length"></messageList>
+        <div v-else>Nothing</div>
     </section>
     <!-- 最高評價 -->
     <section id="recent-posts-3" class="widget mt-3">
         <h3>Top Rated</h3>
-        <b-card-group columns v-if="rated.length > 0">
-          <message v-for="(d, i) in rated" :key="'tr_' + i" :message="d"></message>
-        </b-card-group>
-        <div v-else>
-          Nothing...
-        </div>
+        <div v-if="comments == null">加載中...ε≡ﾍ( ´∀`)ﾉ</div>
+        <messageList :messages="rated" v-else-if="rated.length"></messageList>
+        <div v-else>Nothing</div>
     </section>
   </div>
 </template>
@@ -36,17 +37,18 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 
-import message from '@/components/Message.vue'
+import messageList from '@/components/MessageList.vue'
 
 export default {
   data(){
     return {
       search: null,
-      favorites: [],
-      rated: []
+      favorites: null,
+      rated: null,
+      comments: null
     }
   },
-  components: { message },
+  components: { messageList },
   methods: {
     ...mapState(['lang'])
   },
@@ -67,6 +69,7 @@ export default {
           }else{
             this.favorites = response.data.result.favorites
             this.rated = response.data.result.rated
+            this.comments = response.data.result.comments
             this.setUsers(response.data.result.users)
           }
         })
@@ -80,3 +83,12 @@ export default {
   }
 }
 </script>
+<style>
+.messages__items-row {
+    display: flex;
+    width: 100%;
+}
+.messages__item {
+  width: 100%;
+}
+</style>
